@@ -1,13 +1,13 @@
 'use client'
 import {
+    ArrowBigUp,
+    ArrowBigDown,
     BadgeCheck,
     Bell,
-    Bolt,
+    CircleDollarSign,
     ChevronsUpDown,
     LayoutDashboard,
-    ListTodo,
     LogOut,
-    MonitorCog,
     User,
 } from 'lucide-react'
 
@@ -67,9 +67,9 @@ export function AppSidebar() {
                                 size='lg'
                                 className=' mt-3 ml-3 bg-transparent dark:bg-transparent hover:bg-transparent dark:hover:bg-transparent'
                             >
-                                <Bolt className='text-[#23CFCE]' style={{ width: '27px', height: '27px' }} />
+                                <CircleDollarSign className='text-[#23CFCE]' style={{ width: '27px', height: '27px' }} />
                                 <div className='flex flex-col gap-0.5 leading-none pl-2'>
-                                    <span className='font-semibold'>Task Manager</span>
+                                    <span className='font-semibold'>Finance Hub</span>
                                 </div>
                             </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -96,15 +96,15 @@ export function AppSidebar() {
                 </SidebarGroup>
             
                 <SidebarGroup key={2} className='pl-5 mt-3'>
-                    <SidebarGroupLabel>Tasks</SidebarGroupLabel>
+                    <SidebarGroupLabel>Financeiro</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
 
                             <SidebarMenuItem>
                                 <Link to='/tasks' className='flex items-center ml-2'>
                                     <SidebarMenuButton className='h-12 hover:bg-[#23CFCE] dark:hover:bg-[#23CFCE] dark:hover:text-black'>
-                                        <ListTodo style={{ width: '21px', height: '21px' }} strokeWidth={2.5} />
-                                        <span className='font-mono ml-4'>Minhas Tarefas</span>
+                                        <ArrowBigUp style={{ width: '21px', height: '21px', color: 'green' }} strokeWidth={2.5} />
+                                        <span className='font-mono ml-4'>Receitas</span>
                                     </SidebarMenuButton>
                                 </Link>
                             </SidebarMenuItem>
@@ -112,8 +112,8 @@ export function AppSidebar() {
                             <SidebarMenuItem>
                                 <Link to='/projects' className='flex items-center ml-2'>
                                     <SidebarMenuButton className='h-12 hover:bg-[#23CFCE] dark:hover:bg-[#23CFCE] dark:hover:text-black'>
-                                        <MonitorCog style={{ width: '21px', height: '21px' }} />
-                                        <span className='font-mono ml-4'>Meus Projetos</span>
+                                        <ArrowBigDown style={{ width: '21px', height: '21px', color: 'red' }} />
+                                        <span className='font-mono ml-4'>Despesas</span>
                                     </SidebarMenuButton>
                                 </Link>
                             </SidebarMenuItem>

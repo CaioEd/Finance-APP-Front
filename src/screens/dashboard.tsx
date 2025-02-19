@@ -44,7 +44,7 @@ export function Dashboard() {
                         <div className='col-span-5 bg-white shadow-sm p-10 w-5xl rounded-md dark:bg-[#292929]'>
                             <div className='flex justify-between items-center'>
                                 <div>
-                                    <h1 className='text-[20px] text-[#09090B] font-semibold dark:text-white'>Minhas Tarefas</h1>
+                                    <h1 className='text-[20px] text-[#09090B] font-semibold dark:text-white'>Em breve....</h1>
                                 </div>
                             </div>
                             <div className='mt-10 text-center text-2xl'>

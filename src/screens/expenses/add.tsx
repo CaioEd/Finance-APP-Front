@@ -48,7 +48,7 @@ import { ToggleTheme } from "@/components/toggleTheme";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
 import ApiRegister from "./service";
-import ApiProduct from "../products/service";
+import ApiProduct from "../incomes/service";
 
 import { Calendar } from "@/components/ui/calendar";
 import { toast } from "sonner";

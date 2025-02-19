@@ -7,9 +7,9 @@ import {
 import { Dashboard } from '@/screens/dashboard'
 import { ListUsers } from '@/screens/users/list'
 import { AddUsers } from '@/screens/users/add'
-import { ListProducts } from '@/screens/products/list'
-import { AddProducts } from '@/screens/products/add'
-import { EditProduct } from '@/screens/products/edit'
+import { ListProducts } from '@/screens/incomes/list'
+import { AddProducts } from '@/screens/incomes/add'
+import { EditProduct } from '@/screens/incomes/edit'
 import { SignIn } from '@/screens/signin'
 import { Unauthorized } from '@/screens/unauthorized'
 
