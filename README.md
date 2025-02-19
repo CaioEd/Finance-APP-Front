@@ -1,5 +1,5 @@
-# Inventory-Management
-Web app used to manage tasks. Using React + Typescript.
+# Finance APP
+Web app used for financial control. Using React + Typescript.
 
 ## Commands ##
 All commands are in Makefile
