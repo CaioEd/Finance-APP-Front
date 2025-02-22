@@ -7,6 +7,7 @@ import {
 import { Dashboard } from '@/screens/dashboard'
 import { UserAccount } from '@/screens/users/edit'
 import { SignIn } from '@/screens/signin'
+import { SignUp } from '@/screens/signup'
 import { Unauthorized } from '@/screens/unauthorized'
 
 
@@ -16,10 +17,10 @@ export const AppRoutes = () => {
             <Routes>
                 <Route path="/" element={<SignIn />}/>
 
-                {/* <Route path="/signup" element={
-                        // <SignUp />
+                <Route path="/signup" element={
+                        <SignUp />
                     } 
-                /> */}
+                />
 
                 <Route path="/dashboard" element={<Dashboard />} />
                 
