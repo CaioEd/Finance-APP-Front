@@ -65,7 +65,7 @@ export function AppSidebar() {
                     <SidebarMenuItem>
                             <SidebarMenuButton
                                 size='lg'
-                                className=' mt-3 ml-3 bg-transparent dark:bg-transparent hover:bg-transparent dark:hover:bg-transparent'
+                                className='mt-3 ml-3 bg-transparent dark:bg-transparent hover:bg-transparent dark:hover:bg-transparent'
                             >
                                 <CircleDollarSign className='text-[#23CFCE]' style={{ width: '27px', height: '27px' }} />
                                 <div className='flex flex-col gap-0.5 leading-none pl-2'>
@@ -75,7 +75,7 @@ export function AppSidebar() {
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
-
+            <hr />
             <SidebarContent>
                 <SidebarGroup key={1} className='pl-5 mt-3 w-[270px]'>
                     <SidebarGroupContent>

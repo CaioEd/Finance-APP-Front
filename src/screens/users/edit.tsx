@@ -52,7 +52,7 @@ const FormSchema = z.object({
     path: ['confirm'], // path of error
 })
 
-export function EditUser() {
+export function UserAccount() {
     const id = useParams().id
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
@@ -70,9 +70,9 @@ export function EditUser() {
             }
             const response = await ApiService.Update({ id, data: formattedData })
             if (response === 200) {                
-                navigate('/users')
+                navigate('/dashboard')
             } else {
-                toast.error('Error adding user')
+                toast.error('Error editing user')
             }
         } catch (error) {
             console.log(error, 'error')
@@ -117,7 +117,7 @@ export function EditUser() {
                                     <BreadcrumbSeparator className='hidden md:block' />
                                     <BreadcrumbItem className='hidden md:block'>
                                         <BreadcrumbLink>
-                                            <Link to='/users'>Usuários</Link>
+                                            <Link to='/users'>Minha Conta</Link>
                                         </BreadcrumbLink>
                                     </BreadcrumbItem>
                                     <BreadcrumbSeparator className='hidden md:block' />
@@ -127,41 +127,19 @@ export function EditUser() {
                                 </BreadcrumbList>
                             </Breadcrumb>
                         </div>
+
                     <div className='pr-8'>
                         <ToggleTheme />
                     </div>
+
                 </header>
+
                 <div className='flex flex-1 flex-col  p-4 mt-1 mr-3 ml-3'>
                     <div className='col-span-2 bg-white shadow-sm p-10 rounded-md dark:bg-[#292929]'>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)}>
                                 <div className='flex items-center'>
-                                    <div className='w-1/2 mr-8'>
-                                        <FormField
-                                            control={form.control}
-                                            name='role'
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Tipo de Usuário</FormLabel>
-                                                        <Select 
-                                                            value={field.value}
-                                                            onValueChange={field.onChange}
-                                                            >
-                                                            <FormControl>
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder='Tipo de Usuário' />
-                                                                </SelectTrigger>
-                                                            </FormControl>
-                                                            <SelectContent>
-                                                                <SelectItem value='0'>Administrador</SelectItem>
-                                                                <SelectItem value='1'>Usuário</SelectItem>
-                                                            </SelectContent>
-                                                        </Select>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </div>
+                                    
                                     <div className='w-1/2 mr-8'>
                                         <FormField
                                             control={form.control}
