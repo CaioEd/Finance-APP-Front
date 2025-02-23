@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import BgImage from "../../assets/otp.svg";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -10,33 +9,25 @@ import { toast } from "sonner";
 
 import { CircleDollarSign } from "lucide-react";
 
-export function SignIn() {
+import { ToggleTheme } from "@/components/toggleTheme";
+
+export function SignUp() {
   const navigate = useNavigate();
 
+  const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // Função que carrega dados do localStorage
-  // const HandleUserData = () => {
-  //     const storedUserRole = localStorage.getItem("userRole");
-  //     const storedUserName = localStorage.getItem("userName");
-
-  //     if (storedUserRole && storedUserName) {
-  //         setUserName(storedUserName);
-  //     }
-  // };
-
-  // useEffect(() => {
-  //     HandleUserData();
-  // }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const data = {
-    //     'mobile': mobile,
-    //     'password': password
-    // };
+    const data = {
+      name: name,
+      username: userName,
+      email: email,
+      password: password,
+    };
 
     try {
       const response = await ApiSignin.Login({ data });
@@ -44,28 +35,29 @@ export function SignIn() {
       if (response.token) {
         // SAVE TOKEN ON LOCALSTORAGE
         localStorage.setItem("authToken", response.token);
-        localStorage.setItem("userRole", response.user.role);
-        localStorage.setItem("userName", response.user.name);
+        localStorage.setItem("name", response.user.role);
+        localStorage.setItem("username", response.user.name);
         localStorage.setItem("tokenExpiration", response.expires);
 
-        toast.success("Login successful");
+        toast.success("User created");
         navigate("/dashboard");
       } else {
         toast.error("Invalid credentials");
       }
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred during login. Please try again.");
+      toast.error("An error occurred during registration.");
     }
   };
 
   return (
-    <main className="flex h-screen w-full">
-      <div className="bg-[#F0F0F0] dark:bg-[#212121] w-full h-full flex items-center justify-center">
-        <img src={BgImage} alt="My SVG" className=" w-[50%] h-[50%]" />
+    <div className="flex bg-white w-full dark:bg-[#212121] justify-between items-center flex-col">
+      <div className="self-end p-5">
+        <ToggleTheme />
       </div>
+      <section className="mb-10">
+        <h1 className="font-bold text-2xl mb-3 text-center">Crie sua conta</h1>
 
-      <section className="flex bg-white max-w-3xl w-full dark:bg-[#212121]  justify-center items-center flex-col">
         <Card className="w-[360px] dark:bg-[#292929]">
 
           <CardHeader>
@@ -81,27 +73,53 @@ export function SignIn() {
 
           <CardContent>
             <form onSubmit={handleSubmit}>
+
               <div>
-                <Label htmlFor="email" className="pb-1">
-                  Email
+                <Label htmlFor="name" className="pb-1">
+                  Seu Nome
                 </Label>
                 <Input
-                  placeholder="digite seu email"
+                  placeholder="Digite seu nome"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+
+              <div className="mt-5">
+                <Label htmlFor="userName" className="pb-1">
+                  Nome de usuário
+                </Label>
+                <Input
+                  placeholder="Crie um nome de usuário"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+                <span className="text-xs text-gray-500">
+                  Exemplo: (username01)
+                </span>
+              </div>
+
+              <div className="mt-5">
+                <Label htmlFor="email" className="pb-1">
+                  Seu Email
+                </Label>
+                <Input
+                  placeholder="Digite seu email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
+              <div className="mt-5">
 
-              <div className="mt-7">
                 <Label htmlFor="password" className="pb-1">
-                  Sua senha
+                  Senha
                 </Label>
                 <Input
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   id="password"
                   type="password"
-                  placeholder="digite sua senha"
+                  placeholder="Crie uma senha"
                 />
               </div>
 
@@ -109,16 +127,18 @@ export function SignIn() {
                 type="submit"
                 className="mt-9 w-full dark:bg-[#212121] dark:hover:bg-[#23CFCE] text-white"
               >
-                Entrar
+                Criar a conta
               </Button>
             </form>
           </CardContent>
+
         </Card>
 
-        <Link className="text-[#23CFCE] hover:brightness-110 mt-2" to="/signup">
-          Não possui uma conta ? Clique aqui para criar uma
+        <Link className="text-[#23CFCE] hover:brightness-110" to="/">
+          Já possui uma conta ? Clique aqui para fazer Login
         </Link>
+
       </section>
-    </main>
+    </div>
   );
 }
