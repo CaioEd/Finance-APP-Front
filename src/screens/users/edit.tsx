@@ -42,21 +42,21 @@ import {
 import ApiService from './service'
 
 const FormSchema = z.object({
-    role: z.string().min(1, {message: 'Mínimo 1 caracteres'}),
-    name: z.string().min(1, {message: 'Mínimo 1 caracteres'}),
-    mobile: z.string().min(1, {message: 'Mínimo 1 caracteres'}),
+    name: z.string().min(1, {message: 'Mínimo 3 caracteres'}),
+    username: z.string().min(1, {message: 'Mínimo 5 caracteres'}),
+    email: z.string().min(1, {message: 'Mínimo 8 caracteres'}),
     password: z.string().optional(),
     confirm: z.string().optional(),
 }).refine(data => data.password === data.confirm, {
     message: 'As senhas não coincidem',
-    path: ['confirm'], // path of error
+    path: ['confirm'], // set the path of the error
 })
 
 export function UserAccount() {
     const id = useParams().id
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
-    const [name, setName] = useState('')
+    const [username, setUsername] = useState('')
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -66,7 +66,7 @@ export function UserAccount() {
         try {
             const formattedData = {
                 ...data,
-                password: data.password || undefined, // Remove password if not provided
+                password: data.password || undefined, 
             }
             const response = await ApiService.Update({ id, data: formattedData })
             if (response === 200) {                
@@ -84,9 +84,9 @@ export function UserAccount() {
             const response = await ApiService.GetUserByID({ id })
             if (response) {
                 setName(response.name)
-                form.setValue('role', response.role)
                 form.setValue('name', response.name)
-                form.setValue('mobile', response.mobile)
+                form.setValue('username', response.username)
+                form.setValue('email', response.email)
             }
         } catch (error) {
             console.log('Error:', error)
@@ -102,9 +102,12 @@ export function UserAccount() {
     return (
         <>
             <AppSidebar />
+
             <SidebarInset className='pl-9'>
                 <header className='flex justify-between h-16 mt-3 ml-3 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12'>
+
                     <div className='flex items-center gap-2 px-4'>
+
                         <SidebarTrigger className='-ml-1' />
                             <Separator className='mr-2 h-4' />
                             <Breadcrumb>
@@ -122,19 +125,22 @@ export function UserAccount() {
                                     </BreadcrumbItem>
                                     <BreadcrumbSeparator className='hidden md:block' />
                                     <BreadcrumbItem>
-                                        <BreadcrumbPage>Editando: {name}</BreadcrumbPage>
+                                        <BreadcrumbPage>{username}</BreadcrumbPage>
                                     </BreadcrumbItem>
                                 </BreadcrumbList>
                             </Breadcrumb>
+
                         </div>
 
                     <div className='pr-8'>
                         <ToggleTheme />
                     </div>
-
+                    
                 </header>
 
                 <div className='flex flex-1 flex-col  p-4 mt-1 mr-3 ml-3'>
+
+                    <h1 className='mb-3 font-bold text-xl' >Seus dados/Edição de dados</h1>
                     <div className='col-span-2 bg-white shadow-sm p-10 rounded-md dark:bg-[#292929]'>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -147,20 +153,21 @@ export function UserAccount() {
                                             render={({ field }) => (
                                                 <FormItem>
                                                     <FormLabel>Nome</FormLabel>
-                                                    <Input placeholder='Nome' {...field} />
+                                                    <Input placeholder='Seu nome' {...field} />
                                                     <FormMessage />
                                                 </FormItem>
                                             )}
                                         />
                                     </div>
+
                                     <div className='w-1/2'>
                                         <FormField
                                             control={form.control}
-                                            name='mobile'
+                                            name='username'
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Celular</FormLabel>
-                                                    <Input placeholder='Celular' {...field} />
+                                                    <FormLabel>Nome de usuário</FormLabel>
+                                                    <Input placeholder='Seu nome de usuário' {...field} />
                                                     <FormMessage />
                                                 </FormItem>
                                             )}
@@ -169,7 +176,22 @@ export function UserAccount() {
                                 </div>
 
                                 <div className='flex items-center mt-5'>
-                                    <div className='w-1/2 mr-8'>
+
+                                    <div className='w-1/2 mr-5'>
+                                        <FormField
+                                            control={form.control}
+                                            name='email'
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Email</FormLabel>
+                                                    <Input placeholder='Seu email' {...field} />
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+
+                                    <div className='w-1/2 mr-5'>
                                         <FormField
                                             control={form.control}
                                             name='password'
@@ -204,6 +226,7 @@ export function UserAccount() {
                                         Salvar Alterações
                                     </Button>
                                 </div>
+
                             </form>    
                         </Form>
                     </div>
