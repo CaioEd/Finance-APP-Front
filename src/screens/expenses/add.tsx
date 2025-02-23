@@ -34,6 +34,9 @@ import {
 
 import { cn } from "@/lib/utils";
 
+import { ArrowBigDown } from "lucide-react";
+
+
 import {
   Popover,
   PopoverContent,
@@ -54,71 +57,43 @@ import { Calendar } from "@/components/ui/calendar";
 import { toast } from "sonner";
 
 const FormSchema = z.object({
-  name: z.string({ required_error: "Selecione o produto" }),
-  register_date: z.string({ required_error: "Informe a data" }),
-  quantity: z.number().min(1, { message: "Quantidade precisa ser ao menos 1" }),
-  price: z.number().min(0, { message: "Preço não pode ser negativo" }),
+  title: z.string().min(4, { message: "Mínimo 4 caracteres" }),
+  description: z.string().min(15, { message: "Mínimo 15 caracteres" }),
+  category: z.string({ required_error: "Selecione a categoria" }),
 });
 
-export function AddRegister() {
+export function AddExpense() {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-  const [products, setProducts] = useState<string[]>([]);
+  const [expense, setExpenses] = useState<string[]>([]);
   const [date, setDate] = useState<Date | null>(null);
 
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      name: "",
-      register_date: "",
-      quantity: 1,
-      price: 0,
-    },
-  });
+      resolver: zodResolver(FormSchema),
+    });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const formattedData = {
-      ...data,
-      quantity: Number(data.quantity), // ou parseFloat(data.quantity)
-      price: Number(data.price), // ou parseFloat(data.price)
-    };
-
     try {
-      const response = await ApiRegister.Insert(formattedData);
-      console.log("Payload enviado:", data);
+      const response = await ApiProduct.Insert(data);
       if (response) {
-        toast.success("Registro adicionado com sucesso!");
-        navigate("/registers");
+        toast.success("Despesa adicionada com sucesso!");
+        navigate("/expenses");
+      } else {
+        toast.error("Erro ao adicionar a despesa");
       }
     } catch (error) {
-      console.error("Erro ao adicionar registro:", error);
+      console.log(error, "error");
     }
+
+    console.log(data);
   }
-
-  const getProducts = async () => {
-    try {
-      const response = await ApiProduct.GetAllProducts();
-      setProducts(
-        response.map((product) => ({
-          id: product.id,
-          name: product.name,
-        }))
-      );
-    } catch (error) {
-      console.error("Erro ao buscar produtos:", error);
-    }
-  };
-
-  useEffect(() => {
-    getProducts();
-  }, []);
 
   return (
     <>
       <AppSidebar />
       <SidebarInset className="pl-9">
-        <header className="flex justify-between h-16 mt-3 ml-3 shrink-0 items-center gap-2">
+        <header className="flex justify-between h-16 mt-3 ml-3 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator className="mr-2 h-4" />
@@ -132,130 +107,60 @@ export function AddRegister() {
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink>
-                    <Link to="/registers">Registros</Link>
+                    <Link to="/incomes">Receitas</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Adicionar</BreadcrumbPage>
+                  <BreadcrumbPage>Adicionando Receitas</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
+          
           <div className="pr-8">
             <ToggleTheme />
           </div>
         </header>
 
-        <div className="flex flex-2 flex-col p-4 mt-1 mr-3 ml-3">
-          <div className="col-span-3 bg-white shadow-sm p-10 rounded-md dark:bg-[#292929]">
+        <div className="flex flex-1 flex-col  p-4 mt-1 mr-3 ml-3">
+          <div className="flex items-center">
+            <h1 className="mb-3 font-bold text-xl">Adicione despesas aqui</h1>
+            <ArrowBigDown className="text-[#FF0000] mb-2 ml-1" />
+          </div>
+
+          <div className="col-span-2 bg-white shadow-sm p-10 rounded-md dark:bg-[#292929]">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="flex items-center">
-                  <div className="w-1/2 mr-5">
+                <div className="flex items-center mt-5">
+                  <div className="w-1/2 mr-8">
                     <FormField
                       control={form.control}
-                      name="name"
+                      name="title"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Produto</FormLabel>
-                          <Select
-                            onValueChange={(value) => field.onChange(value)}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Selecione o produto" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {products.map((name) => (
-                                <SelectItem key={name.id} value={name.name}>
-                                  {name.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <FormLabel>Receita</FormLabel>
+                          <Input type="text" placeholder="Título" {...field} />
+                          <span className="text-xs text-gray-500">
+                            De um título a despesa - EX: (Compra no mercado)
+                          </span>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
 
-                  <div className="w-1/2 mr-5">
+                  <div className="w-1/2 mb-6">
                     <FormField
                       control={form.control}
-                      name="register_date"
+                      name="description"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Data</FormLabel>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <Button
-                                variant="outline"
-                                className={cn(
-                                  "w-full flex justify-start",
-                                  !date && "text-muted-foreground"
-                                )}
-                              >
-                                <CalendarIcon className="mr-2 h-4 w-4" />
-                                {date
-                                  ? format(date, "dd-MM-yyyy", { locale: ptBR })
-                                  : "Selecione uma data"}
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-full p-0">
-                              <Calendar
-                                mode="single"
-                                selected={date}
-                                onSelect={(selectedDate) => {
-                                  setDate(selectedDate);
-                                  field.onChange(
-                                    format(selectedDate, "yyyy-MM-dd")
-                                  );
-                                }}
-                                initialFocus
-                                locale={ptBR}
-                              />
-                            </PopoverContent>
-                          </Popover>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex items-center">
-                  <div className="w-1/2 mr-5">
-                    <FormField
-                      control={form.control}
-                      name="quantity"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Quantidade</FormLabel>
+                          <FormLabel>Valor</FormLabel>
                           <Input
-                            type="number"
-                            placeholder="Quantidade comprada"
+                            type="text"
+                            placeholder="Valor da despesa"
                             {...field}
-                            onChange={(e) => field.onChange(e.target.valueAsNumber)}  // convert to number
-                          />
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <div className="w-1/2 mr-5">
-                    <FormField
-                      control={form.control}
-                      name="price"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Preço</FormLabel>
-                          <Input type="number" placeholder="Preço" 
-                          {...field}
-                          onChange={(e) => field.onChange(e.target.valueAsNumber)}  // convert to number 
                           />
                           <FormMessage />
                         </FormItem>
@@ -264,10 +169,32 @@ export function AddRegister() {
                   </div>
                 </div>
 
-                <div className="pt-6">
+                <div className="w-1/3 mt-2 mb-6">
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Categoria</FormLabel>
+                        <Select {...field} onValueChange={field.onChange}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione uma categoria" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="opcao1">Opção 1</SelectItem>
+                            <SelectItem value="opcao2">Opção 2</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="pt-7">
                   <Button
                     type="submit"
-                    className="bg-black text-white hover:bg-[#23CFCE] dark:bg-[#212121] dark:hover:bg-[#23CFCE]"
+                    className="bg-[#F2F2F2] hover:bg-[#23CFCE] text-black dark:bg-[#212121] dark:text-white dark:hover:bg-[#23CFCE] dark:hover:text-black"
                   >
                     Adicionar
                   </Button>

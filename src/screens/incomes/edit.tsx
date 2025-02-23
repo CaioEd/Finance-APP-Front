@@ -133,65 +133,7 @@ export function EditIncome() {
           <div className="col-span-2 bg-white shadow-sm p-10 rounded-md dark:bg-[#292929]">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="flex items-center mt-5">
-                  <div className="w-1/2 mr-8">
-                    <FormField
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Receita</FormLabel>
-                          <Input
-                            type="text"
-                            placeholder="Título da sua receita"
-                            {...field}
-                          />
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <div className="w-1/2">
-                    <FormField
-                      control={form.control}
-                      name="value"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Valor</FormLabel>
-                          <Input
-                            type="text"
-                            placeholder="Valor da sua receita"
-                            {...field}
-                          />
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
-
-                <div className="w-1/3 mt-2 mb-6">
-                  <FormField
-                    control={form.control}
-                    name="category"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Categoria</FormLabel>
-                        <Select {...field} onValueChange={field.onChange}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Selecione uma categoria" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="opcao1">Opção 1</SelectItem>
-                            <SelectItem value="opcao2">Opção 2</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                
 
                 <div className="pt-7">
                   <Button

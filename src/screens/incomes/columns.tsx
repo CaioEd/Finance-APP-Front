@@ -69,6 +69,19 @@ export const columns = (setIncomes: React.Dispatch<React.SetStateAction<Incomes[
             )
         }
     },
+    // {
+    //     accessorKey: 'total_spent',
+    //     header: () => {
+    //         return (
+    //             <p className='text-black text-center dark:text-white text-[12px] font-extrabold text-xs uppercase'>Total Gasto</p>
+    //         )
+    //     },
+    //     cell: ({ row }) => {
+    //         return (
+    //             <p className='text-black text-center dark:text-white text-[14.5px] font-semibold'>R$ {row.original.total_spent}</p>
+    //         )
+    //     }
+    // },
     {
         id: 'actions',
         cell: ({ row }) => {

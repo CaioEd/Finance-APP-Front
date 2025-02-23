@@ -13,25 +13,25 @@ import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 
 import { DataTable } from './data-table'
-import { columns, Product } from './columns'
+import { columns, Expenses } from './columns'
 import ApiProduct from './service'
 import { Link } from 'react-router-dom'
 
 
-export function ListRegisters() {
-    const [registers, setRegisters] = useState([] as Product[])
+export function ListExpenses() {
+    const [expenses, setExpenses] = useState([] as Expenses[])
 
-    const registersList = async () => {
+    const expensesList = async () => {
         const response = await ApiProduct.GetAllRegisters()
         if (response) {
-            setRegisters(response)
+            setExpenses(response)
         } else {
-            console.log('Failed to get products')
+            console.log('Failed to get expenses')
         }
     }
     
     useEffect(() => {
-        registersList()
+        expensesList()
     }, [])
     
 
@@ -64,7 +64,7 @@ export function ListRegisters() {
 
                 <div className='flex flex-1 flex-col  p-4 mt-1 mr-3 ml-3'>
                     <div className='col-span-2 bg-white shadow-sm p-10 rounded-md dark:bg-[#292929]'>
-                        <DataTable columns={columns(setRegisters)} data={registers} />
+                        <DataTable columns={columns(setExpenses)} data={expenses} />
                     </div>
                 </div> 
             </SidebarInset>

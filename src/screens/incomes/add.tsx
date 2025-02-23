@@ -40,7 +40,7 @@ import ApiProduct from "./service";
 import { useEffect, useState } from "react";
 
 const FormSchema = z.object({
-  name: z.string().min(4, { message: "Mínimo 4 caracteres" }),
+  title: z.string().min(4, { message: "Mínimo 4 caracteres" }),
   description: z.string().min(15, { message: "Mínimo 15 caracteres" }),
   category: z.string({ required_error: "Selecione a categoria" }),
 });
@@ -117,10 +117,10 @@ export function AddIncome() {
                   <div className="w-1/2 mr-8">
                     <FormField
                       control={form.control}
-                      name="name"
+                      name="title"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Produto</FormLabel>
+                          <FormLabel>Receita</FormLabel>
                           <Input type="text" placeholder="Título" {...field} />
                           <span className="text-xs text-gray-500">
                             De um título a receita - EX: (Salário)

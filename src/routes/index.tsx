@@ -11,6 +11,9 @@ import { UserAccount } from '@/screens/users/edit'
 import { ListIncomes } from '@/screens/incomes/list'
 import { AddIncome } from '@/screens/incomes/add'
 import { EditIncome } from '@/screens/incomes/edit'
+import { ListExpenses } from '@/screens/expenses/list'
+import { AddExpense } from '@/screens/expenses/add'
+import { EditExpense } from '@/screens/expenses/edit'
 import { Unauthorized } from '@/screens/unauthorized'
 
 
@@ -48,21 +51,21 @@ export const AppRoutes = () => {
                     } 
                 /> 
 
-                {/* <Route path="/expenses" element={
+                <Route path="/expenses" element={
                         <ListExpenses />
                     } 
-                /> */}
+                /> 
 
                 
-                {/* <Route path="/expenses/add" element={
+                <Route path="/expenses/add" element={
                         <AddExpense/>
                     } 
-                /> */}
+                />
 
-                {/* <Route path="/expense/edit/:id" element={
+                <Route path="/expense/edit/:id" element={
                         <EditExpense />
                     } 
-                /> */}
+                />
 
                 <Route path='/unauthorized' element={
                     <Unauthorized />

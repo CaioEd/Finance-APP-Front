@@ -7,82 +7,81 @@ import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
 
 
-export type Register = {
+export type Expenses = {
     id: string
-    name: string
-    quantity: string
-    price: string
-    total_spent: number
-    register_date: string
+    title: string
+    value: string
+    category: string
+    created_at: string
 }
 
 
-export const columns = (setRegister: React.Dispatch<React.SetStateAction<Register[]>>): ColumnDef<Register>[] => [
+export const columns = (setExpenses: React.Dispatch<React.SetStateAction<Expenses[]>>): ColumnDef<Expenses>[] => [
     {
-        accessorKey: 'name',
+        accessorKey: 'title',
         header: () => {
             return (
-                <p className='text-black text-center dark:text-white text-[12px] font-extrabold text-xs uppercase'>Nome do Produto</p>
+                <p className='text-black text-center dark:text-white text-[12px] font-extrabold text-xs uppercase'>Receita</p>
             )
         },
         cell: ({ row }) => {
             return (
-                <p className='text-black text-center dark:text-white text-[14.5px] font-semibold'>{row.original.name}</p>
+                <p className='text-black text-center dark:text-white text-[14.5px] font-semibold'>{row.original.title}</p>
             )
         }
     },
     {
-        accessorKey: 'quantity',
+        accessorKey: 'value',
         header: () => {
             return (
-                <p className='text-black text-center dark:text-white text-[12px] font-extrabold text-xs uppercase'>Quantidade</p>
+                <p className='text-black text-center dark:text-white text-[12px] font-extrabold text-xs uppercase'>Valor</p>
             )
         },
         cell: ({ row }) => {
             return (
-                <p className='text-black text-center dark:text-white text-[14.5px] subpixel-antialiased'>{row.original.quantity}</p>
+                <p className='text-black text-center dark:text-white text-[14.5px] subpixel-antialiased'>{row.original.value}</p>
             )
         }
     },
     {
-        accessorKey: 'price',
+        accessorKey: 'category',
         header: () => {
             return (
-                <p className='text-black text-center dark:text-white text-[12px] font-extrabold text-xs uppercase'>Preço</p>
+                <p className='text-black text-center dark:text-white text-[12px] font-extrabold text-xs uppercase'>Categoria</p>
             )
         },
         cell: ({ row }) => {
             return (
-                <p className='text-black text-center dark:text-white text-[14.5px] font-semibold'>R$ {row.original.price}</p>
+                <p className='text-black text-center dark:text-white text-[14.5px] font-semibold'>R$ {row.original.category}</p>
             )
         }
     },
     {
-        accessorKey: 'total_spent',
+        accessorKey: 'created_at',
         header: () => {
             return (
-                <p className='text-black text-center dark:text-white text-[12px] font-extrabold text-xs uppercase'>Total Gasto</p>
+                <p className='text-black text-center dark:text-white text-[12px] font-extrabold text-xs uppercase'>Data de Criação</p>
             )
         },
         cell: ({ row }) => {
             return (
-                <p className='text-black text-center dark:text-white text-[14.5px] font-semibold'>R$ {row.original.total_spent}</p>
+                <p className='text-black text-center dark:text-white text-[14.5px] font-semibold'>R$ {row.original.created_at}</p>
             )
         }
     },
-    {
-        accessorKey: 'register_date',
-        header: () => {
-            return (
-                <p className='text-black text-center dark:text-white text-[12px] font-extrabold text-xs uppercase'>Data</p>
-            )
-        },
-        cell: ({ row }) => {
-            return (
-                <p className='text-black text-center dark:text-white text-[14.5px] font-semibold'>{row.original.register_date}</p>
-            )
-        }
-    },
+    // {
+    //     accessorKey: 'total_spent',
+    //     header: () => {
+    //         return (
+    //             <p className='text-black text-center dark:text-white text-[12px] font-extrabold text-xs uppercase'>Total Gasto</p>
+    //         )
+    //     },
+    //     cell: ({ row }) => {
+    //         return (
+    //             <p className='text-black text-center dark:text-white text-[14.5px] font-semibold'>R$ {row.original.total_spent}</p>
+    //         )
+    //     }
+    // },
     {
         id: 'actions',
         cell: ({ row }) => {
@@ -90,7 +89,7 @@ export const columns = (setRegister: React.Dispatch<React.SetStateAction<Registe
             return (
                 <div className='flex justify-end'>
                         <Link
-                        to={`/registers/edit/${row.original.id}`}>
+                        to={`/expenses/edit/${row.original.id}`}>
                             <Button className='w-7 h-7 p-5 mr-4  bg-white hover:bg-[#23CFCE] dark:bg-[#212121] dark:hover:bg-[#23CFCE]'>
                                 <Pen className='text-black dark:text-white' strokeWidth={2} style={{ 'width': 23, 'height': 23 }} />
                             </Button>
