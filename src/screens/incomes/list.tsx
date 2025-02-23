@@ -13,26 +13,26 @@ import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 
 import { DataTable } from './data-table'
-import { columns, Product } from './columns'
+import { columns, Incomes } from './columns'
 import ApiProduct from './service'
 import { Link } from 'react-router-dom'
 
 
-export function ListProducts() {
-    const [products, setProducts] = useState([] as Product[])
+export function ListIncomes() {
+    const [incomes, setIncomes] = useState([] as Incomes[])
 
-    const productsList = async () => {
-        const response = await ApiProduct.GetAllProducts()
-        if (response) {
-            setProducts(response)
-        } else {
-            console.log('Failed to get products')
-        }
-    }
+    // const incomesList = async () => {
+    //     const response = await ApiProduct.GetAllIncomes()
+    //     if (response) {
+    //         setIncomes(response)
+    //     } else {
+    //         console.log('Failed to get incomes')
+    //     }
+    // }
     
-    useEffect(() => {
-        productsList()
-    }, [])
+    // useEffect(() => {
+    //     incomesList()
+    // }, [])
     
 
     return (
@@ -52,19 +52,21 @@ export function ListProducts() {
                                     </BreadcrumbItem>
                                     <BreadcrumbSeparator className='hidden md:block' />
                                     <BreadcrumbItem>
-                                        <BreadcrumbPage>Produtos</BreadcrumbPage>
+                                        <BreadcrumbPage>Receitas</BreadcrumbPage>
                                     </BreadcrumbItem>
                                 </BreadcrumbList>
                             </Breadcrumb>
                         </div>
+
                     <div className='pr-8'>
                         <ToggleTheme />
                     </div>
+
                 </header>
 
                 <div className='flex flex-1 flex-col  p-4 mt-1 mr-3 ml-3'>
                     <div className='col-span-2 bg-white shadow-sm p-10 rounded-md dark:bg-[#292929]'>
-                        <DataTable columns={columns(setProducts)} data={products} />
+                        <DataTable columns={columns(setIncomes)} data={incomes} />
                     </div>
                 </div> 
             </SidebarInset>

@@ -5,9 +5,12 @@ import {
 } from 'react-router-dom'
 
 import { Dashboard } from '@/screens/dashboard'
-import { UserAccount } from '@/screens/users/edit'
 import { SignIn } from '@/screens/signin'
 import { SignUp } from '@/screens/signup'
+import { UserAccount } from '@/screens/users/edit'
+import { ListIncomes } from '@/screens/incomes/list'
+import { AddIncome } from '@/screens/incomes/add'
+import { EditIncome } from '@/screens/incomes/edit'
 import { Unauthorized } from '@/screens/unauthorized'
 
 
@@ -29,21 +32,21 @@ export const AppRoutes = () => {
                     } 
                 />
 
-                {/* <Route path="/incomes" element={
+                <Route path="/incomes" element={
                         <ListIncomes />
                     } 
-                /> */}
+                />
 
                 
-                {/* <Route path="/incomes/add" element={
+                <Route path="/incomes/add" element={
                         <AddIncome />
                     } 
-                /> */}
+                /> 
 
-                {/* <Route path="/icomes/edit/:id" element={
+                <Route path="/icomes/edit/:id" element={
                         <EditIncome />
                     } 
-                /> */} 
+                /> 
 
                 {/* <Route path="/expenses" element={
                         <ListExpenses />

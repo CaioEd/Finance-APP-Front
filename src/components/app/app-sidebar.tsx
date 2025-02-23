@@ -101,7 +101,7 @@ export function AppSidebar() {
                         <SidebarMenu>
 
                             <SidebarMenuItem>
-                                <Link to='/tasks' className='flex items-center ml-2'>
+                                <Link to='/incomes' className='flex items-center ml-2'>
                                     <SidebarMenuButton className='h-12 hover:bg-[#23CFCE] dark:hover:bg-[#23CFCE] dark:hover:text-black'>
                                         <ArrowBigUp style={{ width: '21px', height: '21px', color: 'green' }} strokeWidth={2.5} />
                                         <span className='font-mono ml-4'>Receitas</span>
@@ -110,7 +110,7 @@ export function AppSidebar() {
                             </SidebarMenuItem>
 
                             <SidebarMenuItem>
-                                <Link to='/projects' className='flex items-center ml-2'>
+                                <Link to='/expenses' className='flex items-center ml-2'>
                                     <SidebarMenuButton className='h-12 hover:bg-[#23CFCE] dark:hover:bg-[#23CFCE] dark:hover:text-black'>
                                         <ArrowBigDown style={{ width: '21px', height: '21px', color: 'red' }} />
                                         <span className='font-mono ml-4'>Despesas</span>

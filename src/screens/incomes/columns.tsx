@@ -7,38 +7,39 @@ import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
 
 
-export type Product = {
+export type Incomes = {
     id: string
-    name: string
-    description: string
+    title: string
+    value: number
     category: string
+    created_at: string
 }
 
 
-export const columns = (setProduct: React.Dispatch<React.SetStateAction<Product[]>>): ColumnDef<Product>[] => [
+export const columns = (setIncomes: React.Dispatch<React.SetStateAction<Incomes[]>>): ColumnDef<Incomes>[] => [
     {
-        accessorKey: 'name',
+        accessorKey: 'title',
         header: () => {
             return (
-                <p className='text-black dark:text-white text-[12px] font-extrabold text-xs uppercase'>Produto</p>
+                <p className='text-black dark:text-white text-[12px] font-extrabold text-xs uppercase'>Receita</p>
             )
         },
         cell: ({ row }) => {
             return (
-                <p className='text-black dark:text-white text-[14.5px] font-semibold'>{row.original.name}</p>
+                <p className='text-black dark:text-white text-[14.5px] font-semibold'>{row.original.title}</p>
             )
         }
     },
     {
-        accessorKey: 'description',
+        accessorKey: 'value',
         header: () => {
             return (
-                <p className='text-black dark:text-white text-[12px] font-extrabold text-xs uppercase'>Descrição</p>
+                <p className='text-black dark:text-white text-[12px] font-extrabold text-xs uppercase'>Valor</p>
             )
         },
         cell: ({ row }) => {
             return (
-                <p className='text-black dark:text-white text-[14.5px]'>{row.original.description}</p>
+                <p className='text-black dark:text-white text-[14.5px]'>{row.original.value}</p>
             )
         }
     },
@@ -56,13 +57,26 @@ export const columns = (setProduct: React.Dispatch<React.SetStateAction<Product[
         }
     },
     {
+        accessorKey: 'created_at',
+        header: () => {
+            return (
+                <p className='text-black dark:text-white text-[12px] font-extrabold text-xs uppercase'>Data de Criação</p>
+            )
+        },
+        cell: ({ row }) => {
+            return (
+                <p className='text-black dark:text-white text-[14.5px] subpixel-antialiased'>{row.original.created_at}</p>
+            )
+        }
+    },
+    {
         id: 'actions',
         cell: ({ row }) => {
             const primitiveId = row.original.id;
             return (
                 <div className='flex justify-end'>
                         <Link
-                        to={`/products/edit/${row.original.id}`}>
+                        to={`/incomes/edit/${row.original.id}`}>
                             <Button className='w-7 h-7 p-5 mr-4  bg-white hover:bg-[#23CFCE] dark:bg-[#212121] dark:hover:bg-[#23CFCE]'>
                                 <Pen className='text-black dark:text-white' strokeWidth={2} style={{ 'width': 23, 'height': 23 }} />
                             </Button>

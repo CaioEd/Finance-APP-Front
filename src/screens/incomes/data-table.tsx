@@ -72,7 +72,7 @@ export function DataTable<TData, TValue>({
 					
 					<div className="flex items-center space-x-6">
 						
-						<Link to="/products/add" className="bg-[#F2F2F2] hover:bg-[#23CFCE] py-2.5 p-5 text-black rounded-lg transition-colors duration-400">
+						<Link to="/incomes/add" className="bg-[#F2F2F2] hover:bg-[#23CFCE] py-2.5 p-5 text-black rounded-lg transition-colors duration-400">
 							<span className="">Adicionar</span> 
 						</Link>
 					</div>
@@ -120,6 +120,7 @@ export function DataTable<TData, TValue>({
 					</TableBody>
 				</Table>
 			</div>
+			
 			<Pager table={table} />
 		</>
   )
