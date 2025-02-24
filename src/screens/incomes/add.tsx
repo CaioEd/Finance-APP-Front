@@ -30,6 +30,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { ArrowBigUp } from "lucide-react";
+
 import { AppSidebar } from "@/components/app/app-sidebar";
 import { ToggleTheme } from "@/components/toggleTheme";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
@@ -38,12 +40,18 @@ import ApiProduct from "./service";
 import { useEffect, useState } from "react";
 
 const FormSchema = z.object({
-  name: z.string().min(4, { message: "Mínimo 4 caracteres" }),
-  description: z.string().min(15, { message: "Mínimo 15 caracteres" }),
-  category: z.string({ required_error: "Selecione a categoria" })
+  title: z
+    .string()
+    .min(1, { message: "O título é obrigatório" })
+    .min(4, { message: "Mínimo 4 caracteres" }),
+  value: z
+    .string()
+    .min(1, { message: "O valor é obrigatório" })
+    .refine(val => !isNaN(Number(val)) && Number(val) > 0, { message: "O valor deve ser um número positivo" }),
+  category: z.string().min(1, { message: "Selecione a categoria" }),
 });
 
-export function AddProducts() {
+export function AddIncome() {
   const navigate = useNavigate();
 
   const [categories, setCategories] = useState([]);
@@ -56,10 +64,10 @@ export function AddProducts() {
     try {
       const response = await ApiProduct.Insert(data);
       if (response) {
-        toast.success("Produto adicionado com sucesso!");
-        navigate("/products");
+        toast.success("Receita adicionada com sucesso!");
+        navigate("/incomes");
       } else {
-        toast.error("Erro ao adicionar o produto");
+        toast.error("Erro ao adicionar a receita");
       }
     } catch (error) {
       console.log(error, "error");
@@ -67,7 +75,6 @@ export function AddProducts() {
 
     console.log(data);
   }
-
 
   return (
     <>
@@ -87,22 +94,28 @@ export function AddProducts() {
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink>
-                    <Link to="/products">Produtos</Link>
+                    <Link to="/incomes">Receitas</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Adicionar Produto</BreadcrumbPage>
+                  <BreadcrumbPage>Adicionando Receitas</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
+          
           <div className="pr-8">
             <ToggleTheme />
           </div>
         </header>
 
         <div className="flex flex-1 flex-col  p-4 mt-1 mr-3 ml-3">
+          <div className="flex items-center">
+            <h1 className="mb-3 font-bold text-xl">Adicione receitas aqui</h1>
+            <ArrowBigUp className="text-[#008000] mb-2 ml-1" />
+          </div>
+
           <div className="col-span-2 bg-white shadow-sm p-10 rounded-md dark:bg-[#292929]">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -110,31 +123,30 @@ export function AddProducts() {
                   <div className="w-1/2 mr-8">
                     <FormField
                       control={form.control}
-                      name="name"
+                      name="title"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Produto</FormLabel>
-                          <Input
-                            type="text"
-                            placeholder="Nome do Produto"
-                            {...field}
-                          />
+                          <FormLabel>Receita</FormLabel>
+                          <Input type="text" placeholder="Título" {...field} />
+                          <span className="text-xs text-gray-500">
+                            De um título a receita - EX: (Salário)
+                          </span>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
 
-                  <div className="w-1/2">
+                  <div className="w-1/2 mb-6">
                     <FormField
                       control={form.control}
-                      name="description"
+                      name="value"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Descrição</FormLabel>
+                          <FormLabel>Valor</FormLabel>
                           <Input
                             type="text"
-                            placeholder="Descrição"
+                            placeholder="Valor da receita"
                             {...field}
                           />
                           <FormMessage />
@@ -142,6 +154,28 @@ export function AddProducts() {
                       )}
                     />
                   </div>
+                </div>
+
+                <div className="w-1/3 mt-2 mb-6">
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Categoria</FormLabel>
+                        <Select {...field} onValueChange={field.onChange}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione uma categoria" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="opcao1">Opção 1</SelectItem>
+                            <SelectItem value="opcao2">Opção 2</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
                 <div className="pt-7">

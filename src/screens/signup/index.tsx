@@ -9,8 +9,6 @@ import { toast } from "sonner";
 
 import { CircleDollarSign } from "lucide-react";
 
-import { ToggleTheme } from "@/components/toggleTheme";
-
 export function SignUp() {
   const navigate = useNavigate();
 
@@ -52,9 +50,7 @@ export function SignUp() {
 
   return (
     <div className="flex bg-white w-full dark:bg-[#212121] justify-between items-center flex-col">
-      <div className="self-end p-5">
-        <ToggleTheme />
-      </div>
+
       <section className="mb-10">
         <h1 className="font-bold text-2xl mb-3 text-center">Crie sua conta</h1>
 
@@ -79,7 +75,7 @@ export function SignUp() {
                   Seu Nome
                 </Label>
                 <Input
-                  placeholder="Digite seu nome"
+                  placeholder="digite seu nome"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -90,7 +86,7 @@ export function SignUp() {
                   Nome de usuário
                 </Label>
                 <Input
-                  placeholder="Crie um nome de usuário"
+                  placeholder="crie um nome de usuário"
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
                 />
@@ -104,7 +100,7 @@ export function SignUp() {
                   Seu Email
                 </Label>
                 <Input
-                  placeholder="Digite seu email"
+                  placeholder="digite seu email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -119,7 +115,7 @@ export function SignUp() {
                   onChange={(e) => setPassword(e.target.value)}
                   id="password"
                   type="password"
-                  placeholder="Crie uma senha"
+                  placeholder="crie uma senha"
                 />
               </div>
 
