@@ -66,6 +66,7 @@ export function SignIn() {
       </div>
 
       <section className="flex bg-white max-w-3xl w-full dark:bg-[#212121]  justify-center items-center flex-col">
+
         <Card className="w-[360px] dark:bg-[#292929]">
 
           <CardHeader>

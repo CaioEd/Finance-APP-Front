@@ -40,9 +40,15 @@ import ApiProduct from "./service";
 import { useEffect, useState } from "react";
 
 const FormSchema = z.object({
-  title: z.string().min(4, { message: "Mínimo 4 caracteres" }),
-  description: z.string().min(15, { message: "Mínimo 15 caracteres" }),
-  category: z.string({ required_error: "Selecione a categoria" }),
+  title: z
+    .string()
+    .min(1, { message: "O título é obrigatório" })
+    .min(4, { message: "Mínimo 4 caracteres" }),
+  value: z
+    .string()
+    .min(1, { message: "O valor é obrigatório" })
+    .refine(val => !isNaN(Number(val)) && Number(val) > 0, { message: "O valor deve ser um número positivo" }),
+  category: z.string().min(1, { message: "Selecione a categoria" }),
 });
 
 export function AddIncome() {
@@ -134,7 +140,7 @@ export function AddIncome() {
                   <div className="w-1/2 mb-6">
                     <FormField
                       control={form.control}
-                      name="description"
+                      name="value"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Valor</FormLabel>

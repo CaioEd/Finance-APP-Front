@@ -42,9 +42,15 @@ import ApiService from "./service";
 import { title } from "process";
 
 const FormSchema = z.object({
-  title: z.string().min(4, { message: "Mínimo 4 caracteres" }),
-  value: z.string().min(15, { message: "Mínimo 1 caracteres" }),
-  category: z.string().min(6, { message: "Mínimo 5 caracteres" }),
+  title: z
+    .string()
+    .min(1, { message: "O título é obrigatório" })
+    .min(4, { message: "Mínimo 4 caracteres" }),
+  value: z
+    .string()
+    .min(1, { message: "O valor é obrigatório" })
+    .refine(val => !isNaN(Number(val)) && Number(val) > 0, { message: "O valor deve ser um número positivo" }),
+  category: z.string().min(1, { message: "Selecione a categoria" }),
 });
 
 export function EditIncome() {
@@ -84,6 +90,19 @@ export function EditIncome() {
       setLoading(false);
     }
   };
+
+  // const deleteIncome = async () => {
+  //   try {
+  //     const response = await ApiService.Delete({ id });
+  //     if (response) {
+  //       navigate("/registers");
+  //     } else {
+  //       toast.error("Error deleting the expense");
+  //     }
+  //   } catch (error) {
+  //     console.log(error, "error");
+  //   }
+  // };
 
   useEffect(() => {
     getIncome();
@@ -133,7 +152,64 @@ export function EditIncome() {
           <div className="col-span-2 bg-white shadow-sm p-10 rounded-md dark:bg-[#292929]">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
-                
+              <div className="flex items-center mt-5">
+                  <div className="w-1/2 mr-8">
+                    <FormField
+                      control={form.control}
+                      name="title"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Receita</FormLabel>
+                          <Input type="text" placeholder="Título" {...field} />
+                          <span className="text-xs text-gray-500">
+                            De um título a receita - EX: (Salário)
+                          </span>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="w-1/2 mb-6">
+                    <FormField
+                      control={form.control}
+                      name="value"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Valor</FormLabel>
+                          <Input
+                            type="text"
+                            placeholder="Valor da receita"
+                            {...field}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+
+                <div className="w-1/3 mt-2 mb-6">
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Categoria</FormLabel>
+                        <Select {...field} onValueChange={field.onChange}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione uma categoria" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="opcao1">Opção 1</SelectItem>
+                            <SelectItem value="opcao2">Opção 2</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
                 <div className="pt-7">
                   <Button

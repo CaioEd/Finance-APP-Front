@@ -55,9 +55,15 @@ import { ArrowBigDown } from "lucide-react";
 
 
 const FormSchema = z.object({
-  title: z.string().min(4, { message: "Mínimo 4 caracteres" }),
-  value: z.string().min(15, { message: "Mínimo 1 caracteres" }),
-  category: z.string().min(6, { message: "Mínimo 5 caracteres" }),
+  title: z
+    .string()
+    .min(1, { message: "O título é obrigatório" })
+    .min(4, { message: "Mínimo 4 caracteres" }),
+  value: z
+    .string()
+    .min(1, { message: "O valor é obrigatório" })
+    .refine(val => !isNaN(Number(val)) && Number(val) > 0, { message: "O valor deve ser um número positivo" }),
+  category: z.string().min(1, { message: "Selecione a categoria" }),
 });
 
 export function EditExpense() {
