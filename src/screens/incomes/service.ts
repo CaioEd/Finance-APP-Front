@@ -62,7 +62,7 @@ class ApiIncomes {
 
     static async Delete ({ id }) {
         try {
-            const response = await axios.delete(`${BASE_URL}/incomes/${id}`)
+            const response = await axios.delete(`${BASE_URL}/incomes/${id}/`)
             if (response.status === 200) {
                 return response.status
             }
