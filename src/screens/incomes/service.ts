@@ -6,7 +6,7 @@ class ApiIncomes {
     static async GetAllIncomes() {
         try {
             const response = await axios.get(
-                `${BASE_URL}/products`
+                `${BASE_URL}/incomes/`
             )
             console.log('response', response.data)
             if (response.status === 200) {
@@ -22,7 +22,7 @@ class ApiIncomes {
     static async GetIncomeByID({ id }) {
         try {
             const response = await axios.get(
-                `${BASE_URL}/product/${id}`
+                `${BASE_URL}/incomes/${id}/`
             )
             if (response.status === 200) {
                 return response.data
@@ -36,7 +36,7 @@ class ApiIncomes {
     static async Insert( data: any ) {
         try {
             const response = await axios.post(
-                `${BASE_URL}products`,
+                `${BASE_URL}/incomes/`,
                 data
             )
             if (response.status === 201) {
@@ -50,7 +50,7 @@ class ApiIncomes {
 
     static async Update({ id, data }) {
         try {
-            const response = await axios.put(`${BASE_URL}products/${id}`, data)
+            const response = await axios.put(`${BASE_URL}/incomes/${id}`, data)
             if (response.status === 200) {
                 return response.status
             }
@@ -62,7 +62,7 @@ class ApiIncomes {
 
     static async Delete ({ id }) {
         try {
-            const response = await axios.delete(`${BASE_URL}/register/${id}`)
+            const response = await axios.delete(`${BASE_URL}/incomes/${id}`)
             if (response.status === 200) {
                 return response.status
             }

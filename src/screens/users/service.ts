@@ -3,21 +3,6 @@ const BASE_URL = import .meta.env.VITE_API_URL;
 
 class ApiUser {
     
-    static async GetAllUsers() {
-        try {
-            const response = await axios.get(
-                `${BASE_URL}/users`
-            )
-            console.log('response', response.data)
-            if (response.status === 200) {
-                return response.data
-            }
-            return response.data
-        } catch (error) {
-            console.log(error)
-        }
-    }   
-    
     static async Insert(data: any) {
         try {
             const response = await axios.post(
@@ -36,7 +21,7 @@ class ApiUser {
     static async GetUserByID({ id }) {
         try {
             const response = await axios.get(
-                `${BASE_URL}/user/${id}`
+                `${BASE_URL}/users/${id}`
             )
             if (response.status === 200) {
                 return response.data

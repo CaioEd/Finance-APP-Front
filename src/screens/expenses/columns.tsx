@@ -5,6 +5,8 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 
 export type Expenses = {
@@ -21,7 +23,7 @@ export const columns = (setExpenses: React.Dispatch<React.SetStateAction<Expense
         accessorKey: 'title',
         header: () => {
             return (
-                <p className='text-black text-center dark:text-white text-[12px] font-extrabold text-xs uppercase'>Receita</p>
+                <p className='text-black text-center dark:text-white text-[12px] font-extrabold text-xs uppercase'>Despesa</p>
             )
         },
         cell: ({ row }) => {
@@ -39,7 +41,7 @@ export const columns = (setExpenses: React.Dispatch<React.SetStateAction<Expense
         },
         cell: ({ row }) => {
             return (
-                <p className='text-black text-center dark:text-white text-[14.5px] subpixel-antialiased'>{row.original.value}</p>
+                <p className='text-black text-center dark:text-white text-[14.5px] subpixel-antialiased'>R$ {row.original.value}</p>
             )
         }
     },
@@ -52,7 +54,7 @@ export const columns = (setExpenses: React.Dispatch<React.SetStateAction<Expense
         },
         cell: ({ row }) => {
             return (
-                <p className='text-black text-center dark:text-white text-[14.5px] font-semibold'>R$ {row.original.category}</p>
+                <p className='text-black text-center dark:text-white text-[14.5px] font-semibold'>{row.original.category}</p>
             )
         }
     },
@@ -60,13 +62,16 @@ export const columns = (setExpenses: React.Dispatch<React.SetStateAction<Expense
         accessorKey: 'created_at',
         header: () => {
             return (
-                <p className='text-black text-center dark:text-white text-[12px] font-extrabold text-xs uppercase'>Data de Criação</p>
-            )
+                <p className='text-black dark:text-white text-[12px] font-extrabold text-xs uppercase'>Data de Criação</p>
+            );
         },
         cell: ({ row }) => {
+            const rawDate = row.original.created_at;
+            const formattedDate = rawDate ? format(new Date(rawDate), 'dd/MM/yyyy', { locale: ptBR }) : 'Data inválida';
+    
             return (
-                <p className='text-black text-center dark:text-white text-[14.5px] font-semibold'>R$ {row.original.created_at}</p>
-            )
+                <p className='text-black dark:text-white text-[14.5px] subpixel-antialiased'>{formattedDate}</p>
+            );
         }
     },
     // {

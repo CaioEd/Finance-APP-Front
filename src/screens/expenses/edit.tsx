@@ -53,7 +53,6 @@ import { toast } from "sonner";
 
 import { ArrowBigDown } from "lucide-react";
 
-
 const FormSchema = z.object({
   title: z
     .string()
@@ -62,7 +61,9 @@ const FormSchema = z.object({
   value: z
     .string()
     .min(1, { message: "O valor é obrigatório" })
-    .refine(val => !isNaN(Number(val)) && Number(val) > 0, { message: "O valor deve ser um número positivo" }),
+    .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+      message: "O valor deve ser um número positivo",
+    }),
   category: z.string().min(1, { message: "Selecione a categoria" }),
 });
 
@@ -109,7 +110,7 @@ export function EditExpense() {
     try {
       const response = await ApiExpenses.GetExpenseByID({ id });
       if (response) {
-        form.setValue("title", response.value);
+        form.setValue("title", response.title);
         form.setValue("value", response.value);
         form.setValue("category", response.category);
       }
@@ -213,8 +214,8 @@ export function EditExpense() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Categoria</FormLabel>
-                        <Select {...field} onValueChange={field.onChange}>
-                          <SelectTrigger>
+                        <Select {...field} onValueChange={field.onChange} >
+                          <SelectTrigger value="category" >
                             <SelectValue placeholder="Selecione uma categoria" />
                           </SelectTrigger>
                           <SelectContent>
@@ -235,18 +236,16 @@ export function EditExpense() {
                   >
                     Salvar Alterações
                   </Button>
-
-                  <Button
-                    onClick={deleteExpense}
-                    className="ml-3 bg-red-500 text-white"
-                  >
-                    <Trash />
-                    Deletar Produto
-                  </Button>
                 </div>
-                
               </form>
             </Form>
+            <Button
+              onClick={deleteExpense}
+              className="mt-4 bg-red-500 text-white"
+            >
+              <Trash />
+              Deletar Despesa
+            </Button>
           </div>
         </div>
       </SidebarInset>

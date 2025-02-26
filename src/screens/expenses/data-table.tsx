@@ -119,9 +119,9 @@ export function DataTable<TData, TValue>({
         <div className="flex justify-between items-center pb-4">
           <Input
             placeholder="Pesquisar por Título ..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
+              table.getColumn("title")?.setFilterValue(event.target.value)
             }
             className="max-w-sm ml-2 mt-1 mb-2"
           />
@@ -141,7 +141,7 @@ export function DataTable<TData, TValue>({
             <Button
               id="date"
               className={cn(
-                "w-1/4 justify-start text-left font-normal text-black mb-5",
+                "w-1/4 justify-start text-left font-normal text-black mb-5 ml-2",
                 !date && "text-muted-foreground"
               )}
               style={{ backgroundColor: "rgb(240, 240, 240)" }}

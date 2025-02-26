@@ -6,7 +6,7 @@ class ApiExpenses {
     static async GetAllExpenses() {
         try {
             const response = await axios.get(
-                `${BASE_URL}/registers`
+                `${BASE_URL}/expenses/`
             )
             console.log('response', response.data)
             if (response.status === 200) {
@@ -21,7 +21,7 @@ class ApiExpenses {
     static async GetExpenseByID({ id }) {
         try {
             const response = await axios.get(
-                `${BASE_URL}/register/${id}`
+                `${BASE_URL}/expenses/${id}/`
             )
             if (response.status === 200) {
                 return response.data
@@ -35,7 +35,7 @@ class ApiExpenses {
     static async Insert( data: any ) {
         try {
             const response = await axios.post(
-                `${BASE_URL}register`,
+                `${BASE_URL}/expenses/`,
                 data
             )
             if (response.status === 201) {
@@ -49,7 +49,7 @@ class ApiExpenses {
 
     static async Update({ id, data }) {
         try {
-            const response = await axios.put(`${BASE_URL}/register/${id}`, data)
+            const response = await axios.put(`${BASE_URL}/expenses/${id}`, data)
             if (response.status === 200) {
                 return response.status
             }
@@ -61,7 +61,7 @@ class ApiExpenses {
 
     static async Delete ({ id }) {
         try {
-            const response = await axios.delete(`${BASE_URL}/register/${id}`)
+            const response = await axios.delete(`${BASE_URL}/expenses/${id}`)
             if (response.status === 200) {
                 return response.status
             }

@@ -32,7 +32,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { ArrowBigUp } from "lucide-react";
+import { ArrowBigUp, Trash } from "lucide-react";
 
 import { AppSidebar } from "@/components/app/app-sidebar";
 import { ToggleTheme } from "@/components/toggleTheme";
@@ -50,7 +50,9 @@ const FormSchema = z.object({
   value: z
     .string()
     .min(1, { message: "O valor é obrigatório" })
-    .refine(val => !isNaN(Number(val)) && Number(val) > 0, { message: "O valor deve ser um número positivo" }),
+    .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+      message: "O valor deve ser um número positivo",
+    }),
   category: z.string().min(1, { message: "Selecione a categoria" }),
 });
 
@@ -92,18 +94,18 @@ export function EditIncome() {
     }
   };
 
-  // const deleteIncome = async () => {
-  //   try {
-  //     const response = await ApiIncomes.Delete({ id });
-  //     if (response) {
-  //       navigate("/registers");
-  //     } else {
-  //       toast.error("Error deleting the expense");
-  //     }
-  //   } catch (error) {
-  //     console.log(error, "error");
-  //   }
-  // };
+  const deleteIncome = async () => {
+    try {
+      const response = await ApiIncomes.Delete({ id });
+      if (response) {
+        navigate("/incomes");
+      } else {
+        toast.error("Error deleting the expense");
+      }
+    } catch (error) {
+      console.log(error, "error");
+    }
+  };
 
   useEffect(() => {
     getIncome();
@@ -144,7 +146,6 @@ export function EditIncome() {
           </div>
         </header>
         <div className="flex flex-1 flex-col  p-4 mt-1 mr-3 ml-3">
-
           <div className="flex items-center">
             <h1 className="mb-3 font-bold text-xl">Edite sua receita aqui</h1>
             <ArrowBigUp className="text-[#008000] mb-2 ml-1" />
@@ -153,7 +154,7 @@ export function EditIncome() {
           <div className="col-span-2 bg-white shadow-sm p-10 rounded-md dark:bg-[#292929]">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="flex items-center mt-5">
+                <div className="flex items-center mt-5">
                   <div className="w-1/2 mr-8">
                     <FormField
                       control={form.control}
@@ -220,10 +221,17 @@ export function EditIncome() {
                     Salvar Alterações
                   </Button>
                 </div>
-
               </form>
             </Form>
 
+            <Button
+              onClick={deleteIncome}
+              className="mt-4 bg-red-500 text-white"
+            >
+              <Trash />
+              Deletar Receita
+            </Button>
+            
           </div>
         </div>
       </SidebarInset>
