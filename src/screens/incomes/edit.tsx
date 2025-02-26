@@ -38,7 +38,8 @@ import { AppSidebar } from "@/components/app/app-sidebar";
 import { ToggleTheme } from "@/components/toggleTheme";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
-import ApiService from "./service";
+import ApiIncomes from "./service";
+
 import { title } from "process";
 
 const FormSchema = z.object({
@@ -65,7 +66,7 @@ export function EditIncome() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const response = await ApiService.Update({ id, data });
+      const response = await ApiIncomes.Update({ id, data });
       if (response === 200) {
         navigate("/incomes");
       } else {
@@ -78,7 +79,7 @@ export function EditIncome() {
 
   const getIncome = async () => {
     try {
-      const response = await ApiService.GetProductByID({ id });
+      const response = await ApiIncomes.GetIncomeByID({ id });
       if (response) {
         form.setValue("title", response.title);
         form.setValue("value", response.value);
@@ -93,7 +94,7 @@ export function EditIncome() {
 
   // const deleteIncome = async () => {
   //   try {
-  //     const response = await ApiService.Delete({ id });
+  //     const response = await ApiIncomes.Delete({ id });
   //     if (response) {
   //       navigate("/registers");
   //     } else {

@@ -24,13 +24,6 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form'
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select'
 
 
 import { AppSidebar } from '@/components/app/app-sidebar'
@@ -40,7 +33,7 @@ import {
     SidebarTrigger 
 } from '@/components/ui/sidebar'
 
-import ApiService from './service'
+import ApiUser from './service'
 
 const FormSchema = z.object({
     name: z.string().min(1, {message: 'Mínimo 3 caracteres'}),
@@ -69,7 +62,7 @@ export function UserAccount() {
                 ...data,
                 password: data.password || undefined, 
             }
-            const response = await ApiService.Update({ id, data: formattedData })
+            const response = await ApiUser.Update({ id, data: formattedData })
             if (response === 200) {                
                 navigate('/dashboard')
             } else {
@@ -82,9 +75,9 @@ export function UserAccount() {
 
     const getUser = async () => {
         try {
-            const response = await ApiService.GetUserByID({ id })
+            const response = await ApiUser.GetUserByID({ id })
             if (response) {
-                setName(response.name)
+                setUsername(response.name)
                 form.setValue('name', response.name)
                 form.setValue('username', response.username)
                 form.setValue('email', response.email)

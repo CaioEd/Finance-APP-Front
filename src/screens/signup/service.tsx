@@ -2,7 +2,7 @@ import axios from 'axios'
 const BASE_URL = import .meta.env.VITE_API_URL
 
 
-class ApiSignin {
+class ApiSignup {
     static async Login({ data }) {
         try {
             const response = await axios.post(
@@ -18,4 +18,4 @@ class ApiSignin {
     }
 }
 
-export default ApiSignin
+export default ApiSignup

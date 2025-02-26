@@ -36,7 +36,8 @@ import { AppSidebar } from "@/components/app/app-sidebar";
 import { ToggleTheme } from "@/components/toggleTheme";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
-import ApiProduct from "./service";
+import ApiIncomes from "./service";
+
 import { useEffect, useState } from "react";
 
 const FormSchema = z.object({
@@ -62,7 +63,7 @@ export function AddIncome() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const response = await ApiProduct.Insert(data);
+      const response = await ApiIncomes.Insert(data);
       if (response) {
         toast.success("Receita adicionada com sucesso!");
         navigate("/incomes");

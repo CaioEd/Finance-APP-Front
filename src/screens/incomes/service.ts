@@ -1,8 +1,9 @@
 import axios from 'axios';
 const BASE_URL = import .meta.env.VITE_API_URL;
 
-class ApiProduct {
-    static async GetAllProducts() {
+class ApiIncomes {
+
+    static async GetAllIncomes() {
         try {
             const response = await axios.get(
                 `${BASE_URL}/products`
@@ -18,7 +19,7 @@ class ApiProduct {
     }
 
 
-    static async GetProductByID({ id }) {
+    static async GetIncomeByID({ id }) {
         try {
             const response = await axios.get(
                 `${BASE_URL}/product/${id}`
@@ -59,6 +60,18 @@ class ApiProduct {
         }
     }
 
+    static async Delete ({ id }) {
+        try {
+            const response = await axios.delete(`${BASE_URL}/register/${id}`)
+            if (response.status === 200) {
+                return response.status
+            }
+            return response.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
 }
 
-export default ApiProduct
+export default ApiIncomes

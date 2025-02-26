@@ -2,8 +2,8 @@ import axios from 'axios';
 import { id } from 'date-fns/locale';
 const BASE_URL = import .meta.env.VITE_API_URL;
 
-class ApiRegister {
-    static async GetAllRegisters() {
+class ApiExpenses {
+    static async GetAllExpenses() {
         try {
             const response = await axios.get(
                 `${BASE_URL}/registers`
@@ -18,7 +18,7 @@ class ApiRegister {
         }
     }
 
-    static async GetRegisterByID({ id }) {
+    static async GetExpenseByID({ id }) {
         try {
             const response = await axios.get(
                 `${BASE_URL}/register/${id}`
@@ -74,4 +74,4 @@ class ApiRegister {
 
 }
 
-export default ApiRegister
+export default ApiExpenses

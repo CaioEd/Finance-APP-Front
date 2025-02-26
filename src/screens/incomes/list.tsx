@@ -14,25 +14,25 @@ import { Separator } from '@radix-ui/react-dropdown-menu'
 
 import { DataTable } from './data-table'
 import { columns, Incomes } from './columns'
-import ApiProduct from './service'
+import ApiIncomes from './service'
 import { Link } from 'react-router-dom'
 
 
 export function ListIncomes() {
     const [incomes, setIncomes] = useState([] as Incomes[])
 
-    // const incomesList = async () => {
-    //     const response = await ApiProduct.GetAllIncomes()
-    //     if (response) {
-    //         setIncomes(response)
-    //     } else {
-    //         console.log('Failed to get incomes')
-    //     }
-    // }
+    const incomesList = async () => {
+        const response = await ApiIncomes.GetAllIncomes()
+        if (response) {
+            setIncomes(response)
+        } else {
+            console.log('Failed to get incomes')
+        }
+    }
     
-    // useEffect(() => {
-    //     incomesList()
-    // }, [])
+    useEffect(() => {
+        incomesList()
+    }, [])
     
 
     return (

@@ -37,6 +37,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+
 import { CalendarIcon, Trash } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -45,8 +46,7 @@ import { AppSidebar } from "@/components/app/app-sidebar";
 import { ToggleTheme } from "@/components/toggleTheme";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
-import ApiRegister from "./service";
-import ApiProduct from "../incomes/service";
+import ApiExpenses from "./service";
 
 import { Calendar } from "@/components/ui/calendar";
 import { toast } from "sonner";
@@ -81,7 +81,7 @@ export function EditExpense() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const response = await ApiRegister.Update({ id, data });
+      const response = await ApiExpenses.Update({ id, data });
       if (response === 200) {
         navigate("/expenses");
       } else {
@@ -94,7 +94,7 @@ export function EditExpense() {
 
   const deleteExpense = async () => {
     try {
-      const response = await ApiRegister.Delete({ id });
+      const response = await ApiExpenses.Delete({ id });
       if (response) {
         navigate("/registers");
       } else {
@@ -107,7 +107,7 @@ export function EditExpense() {
 
   const getExpenseByID = async () => {
     try {
-      const response = await ApiRegister.GetRegisterByID({ id });
+      const response = await ApiExpenses.GetExpenseByID({ id });
       if (response) {
         form.setValue("title", response.value);
         form.setValue("value", response.value);
