@@ -4,37 +4,40 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import ApiSignin from "./service";
 import { toast } from "sonner";
-
 import { CircleDollarSign } from "lucide-react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import ApiSignup from "./service";
+import { min } from "date-fns";
+
+
+const FormSchema = z.object({
+  first_name: z.string().min(1, { message: "Digite um nome válido" }),
+  username: z.string().min(1, { message: "Digite um nome de usuário válido" }),
+  email: z.string().email({ message: "Digite um email válido" }),
+  password: z.string().min(1, { message: "Por favor digite a senha" }),
+});
+
 
 export function SignUp() {
   const navigate = useNavigate();
 
-  const [name, setName] = useState("");
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const form = useForm<z.infer<typeof FormSchema>>({
+      resolver: zodResolver(FormSchema),
+  });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const data = {
-      name: name,
-      username: userName,
-      email: email,
-      password: password,
-    };
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
 
     try {
-      const response = await ApiSignin.Login({ data });
+      const response = await ApiSignup.Login({ data });
 
       if (response.token) {
         // SAVE TOKEN ON LOCALSTORAGE
         localStorage.setItem("authToken", response.token);
-        localStorage.setItem("name", response.user.role);
-        localStorage.setItem("username", response.user.name);
+        localStorage.setItem("username", response.username);
         localStorage.setItem("tokenExpiration", response.expires);
 
         toast.success("User created");
@@ -68,16 +71,15 @@ export function SignUp() {
           </CardHeader>
 
           <CardContent>
-            <form onSubmit={handleSubmit}>
-
+            <form onSubmit={form.handleSubmit(onSubmit)}>
               <div>
                 <Label htmlFor="name" className="pb-1">
                   Seu Nome
                 </Label>
                 <Input
+                  id="first_name"
                   placeholder="digite seu nome"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  {...form.register("first_name")}
                 />
               </div>
 
@@ -86,9 +88,9 @@ export function SignUp() {
                   Nome de usuário
                 </Label>
                 <Input
+                  id="username"
                   placeholder="crie um nome de usuário"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
+                  {...form.register("username")}
                 />
                 <span className="text-xs text-gray-500">
                   Exemplo: (username01)
@@ -100,9 +102,9 @@ export function SignUp() {
                   Seu Email
                 </Label>
                 <Input
-                  placeholder="digite seu email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  id="email"
+                  placeholder="Digite seu email"
+                  {...form.register("email")}
                 />
               </div>
               <div className="mt-5">
@@ -111,11 +113,10 @@ export function SignUp() {
                   Senha
                 </Label>
                 <Input
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   id="password"
                   type="password"
-                  placeholder="crie uma senha"
+                  placeholder="Digite sua senha"
+                  {...form.register("password")}
                 />
               </div>
 

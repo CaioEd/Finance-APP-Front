@@ -169,8 +169,8 @@ export function AddIncome() {
                             <SelectValue placeholder="Selecione uma categoria" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="opcao1">Opção 1</SelectItem>
-                            <SelectItem value="opcao2">Opção 2</SelectItem>
+                            <SelectItem value="Opção 1">Opção 1</SelectItem>
+                            <SelectItem value="Opção 2">Opção 2</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />

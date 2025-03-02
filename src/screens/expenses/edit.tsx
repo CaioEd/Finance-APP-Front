@@ -97,7 +97,7 @@ export function EditExpense() {
     try {
       const response = await ApiExpenses.Delete({ id });
       if (response) {
-        navigate("/registers");
+        navigate("/expenses");
       } else {
         toast.error("Error deleting the expense");
       }

@@ -53,7 +53,7 @@ export function ListExpenses() {
                                     </BreadcrumbItem>
                                     <BreadcrumbSeparator className='hidden md:block' />
                                     <BreadcrumbItem>
-                                        <BreadcrumbPage>Registros</BreadcrumbPage>
+                                        <BreadcrumbPage>Despesas</BreadcrumbPage>
                                     </BreadcrumbItem>
                                 </BreadcrumbList>
                             </Breadcrumb>

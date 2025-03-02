@@ -1,74 +1,60 @@
-import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import BgImage from "../../assets/otp.svg";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import ApiSignin from "./service";
 import { toast } from "sonner";
-
 import { CircleDollarSign } from "lucide-react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import ApiSignin from "./service";
+
+const FormSchema = z.object({
+  email: z.string().email({ message: "Digite um email válido" }),
+  password: z.string().min(1, { message: "Por favor digite a senha" }),
+});
 
 export function SignIn() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+  });
 
-  // Função que carrega dados do localStorage
-  // const HandleUserData = () => {
-  //     const storedUserRole = localStorage.getItem("userRole");
-  //     const storedUserName = localStorage.getItem("userName");
-
-  //     if (storedUserRole && storedUserName) {
-  //         setUserName(storedUserName);
-  //     }
-  // };
-
-  // useEffect(() => {
-  //     HandleUserData();
-  // }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // const data = {
-    //     'mobile': mobile,
-    //     'password': password
-    // };
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
 
     try {
       const response = await ApiSignin.Login({ data });
-
-      if (response.token) {
-        // SAVE TOKEN ON LOCALSTORAGE
+      if (response) {
+        
+        // Salva o token no localStorage
+        console.log("Login bem-sucedido");
         localStorage.setItem("authToken", response.token);
-        localStorage.setItem("userRole", response.user.role);
-        localStorage.setItem("userName", response.user.name);
+        localStorage.setItem("username", response.username);
         localStorage.setItem("tokenExpiration", response.expires);
 
-        toast.success("Login successful");
+        toast.success("Login realizado com sucesso");
         navigate("/dashboard");
       } else {
-        toast.error("Invalid credentials");
+        toast.error("Credenciais inválidas");
       }
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred during login. Please try again.");
+      toast.error("Ocorreu um erro durante o login. Tente novamente.");
     }
-  };
+  }
 
   return (
     <main className="flex h-screen w-full">
       <div className="bg-[#F0F0F0] dark:bg-[#212121] w-full h-full flex items-center justify-center">
-        <img src={BgImage} alt="My SVG" className=" w-[50%] h-[50%]" />
+        <img src={BgImage} alt="My SVG" className="w-[50%] h-[50%]" />
       </div>
 
-      <section className="flex bg-white max-w-3xl w-full dark:bg-[#212121]  justify-center items-center flex-col">
-
+      <section className="flex bg-white max-w-3xl w-full dark:bg-[#212121] justify-center items-center flex-col">
         <Card className="w-[360px] dark:bg-[#292929]">
-
           <CardHeader>
             <CircleDollarSign
               className="text-[#23CFCE]"
@@ -81,15 +67,15 @@ export function SignIn() {
           </CardHeader>
 
           <CardContent>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
               <div>
                 <Label htmlFor="email" className="pb-1">
                   Email
                 </Label>
                 <Input
-                  placeholder="digite seu email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  id="email"
+                  placeholder="Digite seu email"
+                  {...form.register("email")}
                 />
               </div>
 
@@ -98,11 +84,10 @@ export function SignIn() {
                   Sua senha
                 </Label>
                 <Input
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   id="password"
                   type="password"
-                  placeholder="digite sua senha"
+                  placeholder="Digite sua senha"
+                  {...form.register("password")}
                 />
               </div>
 
@@ -117,7 +102,7 @@ export function SignIn() {
         </Card>
 
         <Link className="text-[#23CFCE] hover:brightness-110 mt-2" to="/signup">
-          Não possui uma conta ? Clique aqui para criar uma
+          Não possui uma conta? Clique aqui para criar uma
         </Link>
       </section>
     </main>

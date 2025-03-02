@@ -50,7 +50,7 @@ class ApiIncomes {
 
     static async Update({ id, data }) {
         try {
-            const response = await axios.put(`${BASE_URL}/incomes/${id}`, data)
+            const response = await axios.put(`${BASE_URL}/incomes/${id}/`, data)
             if (response.status === 200) {
                 return response.status
             }

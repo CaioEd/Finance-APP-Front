@@ -6,7 +6,7 @@ class ApiSignin {
     static async Login({ data }) {
         try {
             const response = await axios.post(
-                `${BASE_URL}login`, data
+                `${BASE_URL}/login/`, data
             )
             if (response.status === 201) {            
                 return response.data

@@ -49,7 +49,7 @@ class ApiExpenses {
 
     static async Update({ id, data }) {
         try {
-            const response = await axios.put(`${BASE_URL}/expenses/${id}`, data)
+            const response = await axios.put(`${BASE_URL}/expenses/${id}/`, data)
             if (response.status === 200) {
                 return response.status
             }
@@ -61,7 +61,7 @@ class ApiExpenses {
 
     static async Delete ({ id }) {
         try {
-            const response = await axios.delete(`${BASE_URL}/expenses/${id}`)
+            const response = await axios.delete(`${BASE_URL}/expenses/${id}/`)
             if (response.status === 200) {
                 return response.status
             }
