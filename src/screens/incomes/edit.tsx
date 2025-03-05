@@ -74,8 +74,8 @@ export function EditIncome() {
       if (response === 200) {
         navigate("/incomes");
       } else {
-        toast.error("Error editing income");
-        navigate("/incomes")
+        
+        toast.error("Error editing income");       
       }
     } catch (error) {
       console.log(error, "error");
@@ -103,7 +103,8 @@ export function EditIncome() {
       if (response) {
         navigate("/incomes");
       } else {
-        toast.error("Error deleting the expense");
+        navigate("/incomes")
+        toast.error("Error deleting income");
       }
     } catch (error) {
       console.log(error, "error");
