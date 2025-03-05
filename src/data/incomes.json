@@ -1,0 +1,30 @@
+[
+    {
+      "value": "salario",
+      "label": "Salário"
+    },
+    {
+      "value": "freelance",
+      "label": "Freelance"
+    },
+    {
+      "value": "investimentos",
+      "label": "Investimentos"
+    },
+    {
+      "value": "aluguel",
+      "label": "Aluguel"
+    },
+    {
+      "value": "premios",
+      "label": "Prêmios"
+    },
+    {
+      "value": "vendas",
+      "label": "Vendas"
+    },
+    {
+      "value": "outros",
+      "label": "Outros"
+    }
+  ]

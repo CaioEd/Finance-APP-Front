@@ -40,6 +40,8 @@ import ApiIncomes from "./service";
 
 import { useEffect, useState } from "react";
 
+import incomes from '../../data/incomes.json'
+
 const FormSchema = z.object({
   title: z
     .string()
@@ -169,8 +171,9 @@ export function AddIncome() {
                             <SelectValue placeholder="Selecione uma categoria" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="Opção 1">Opção 1</SelectItem>
-                            <SelectItem value="Opção 2">Opção 2</SelectItem>
+                            {incomes.map((category) => (
+                              <SelectItem key={category.value} value={category.label}>{category.label}</SelectItem>
+                            ))}       
                           </SelectContent>
                         </Select>
                         <FormMessage />

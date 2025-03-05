@@ -53,6 +53,8 @@ import { toast } from "sonner";
 
 import { ArrowBigDown } from "lucide-react";
 
+import expenses from '../../data/expenses.json'
+
 const FormSchema = z.object({
   title: z
     .string()
@@ -219,8 +221,9 @@ export function EditExpense() {
                             <SelectValue placeholder="Selecione uma categoria" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="opcao1">Opção 1</SelectItem>
-                            <SelectItem value="opcao2">Opção 2</SelectItem>
+                            {expenses.map((category) => (
+                              <SelectItem key={category.value} value={category.label}>{category.label}</SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                         <FormMessage />
