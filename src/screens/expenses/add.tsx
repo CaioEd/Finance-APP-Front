@@ -36,7 +36,6 @@ import { cn } from "@/lib/utils";
 
 import { ArrowBigDown } from "lucide-react";
 
-
 import {
   Popover,
   PopoverContent,
@@ -50,12 +49,12 @@ import { AppSidebar } from "@/components/app/app-sidebar";
 import { ToggleTheme } from "@/components/toggleTheme";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
-import ApiRegister from "./service";
-import ApiProduct from "../incomes/service";
+import ApiExpenses from "./service";
 
 import { Calendar } from "@/components/ui/calendar";
 import { toast } from "sonner";
 
+import expenses from '../../data/expenses.json'
 
 const FormSchema = z.object({
   title: z
@@ -83,7 +82,7 @@ export function AddExpense() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const response = await ApiProduct.Insert(data);
+      const response = await ApiExpenses.Insert(data);
       if (response) {
         toast.success("Despesa adicionada com sucesso!");
         navigate("/expenses");
@@ -115,12 +114,12 @@ export function AddExpense() {
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink>
-                    <Link to="/incomes">Receitas</Link>
+                    <Link to="/expenses">Despesas</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Adicionando Receitas</BreadcrumbPage>
+                  <BreadcrumbPage>Adicionando despesas</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -189,8 +188,9 @@ export function AddExpense() {
                             <SelectValue placeholder="Selecione uma categoria" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="opcao1">Opção 1</SelectItem>
-                            <SelectItem value="opcao2">Opção 2</SelectItem>
+                            {expenses.map((category) => (
+                              <SelectItem key={category.value} value={category.label}>{category.label}</SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                         <FormMessage />

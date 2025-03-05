@@ -37,6 +37,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+
 import { CalendarIcon, Trash } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -45,14 +46,14 @@ import { AppSidebar } from "@/components/app/app-sidebar";
 import { ToggleTheme } from "@/components/toggleTheme";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
-import ApiRegister from "./service";
-import ApiProduct from "../incomes/service";
+import ApiExpenses from "./service";
 
 import { Calendar } from "@/components/ui/calendar";
 import { toast } from "sonner";
 
 import { ArrowBigDown } from "lucide-react";
 
+import expenses from '../../data/expenses.json'
 
 const FormSchema = z.object({
   title: z
@@ -62,7 +63,9 @@ const FormSchema = z.object({
   value: z
     .string()
     .min(1, { message: "O valor é obrigatório" })
-    .refine(val => !isNaN(Number(val)) && Number(val) > 0, { message: "O valor deve ser um número positivo" }),
+    .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+      message: "O valor deve ser um número positivo",
+    }),
   category: z.string().min(1, { message: "Selecione a categoria" }),
 });
 
@@ -81,7 +84,7 @@ export function EditExpense() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const response = await ApiRegister.Update({ id, data });
+      const response = await ApiExpenses.Update({ id, data });
       if (response === 200) {
         navigate("/expenses");
       } else {
@@ -94,10 +97,11 @@ export function EditExpense() {
 
   const deleteExpense = async () => {
     try {
-      const response = await ApiRegister.Delete({ id });
+      const response = await ApiExpenses.Delete({ id });
       if (response) {
-        navigate("/registers");
+        navigate("/expenses");
       } else {
+        navigate("/expenses")
         toast.error("Error deleting the expense");
       }
     } catch (error) {
@@ -107,9 +111,9 @@ export function EditExpense() {
 
   const getExpenseByID = async () => {
     try {
-      const response = await ApiRegister.GetRegisterByID({ id });
+      const response = await ApiExpenses.GetExpenseByID({ id });
       if (response) {
-        form.setValue("title", response.value);
+        form.setValue("title", response.title);
         form.setValue("value", response.value);
         form.setValue("category", response.category);
       }
@@ -213,13 +217,14 @@ export function EditExpense() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Categoria</FormLabel>
-                        <Select {...field} onValueChange={field.onChange}>
-                          <SelectTrigger>
+                        <Select {...field} onValueChange={field.onChange} >
+                          <SelectTrigger value="category" >
                             <SelectValue placeholder="Selecione uma categoria" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="opcao1">Opção 1</SelectItem>
-                            <SelectItem value="opcao2">Opção 2</SelectItem>
+                            {expenses.map((category) => (
+                              <SelectItem key={category.value} value={category.label}>{category.label}</SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -235,18 +240,17 @@ export function EditExpense() {
                   >
                     Salvar Alterações
                   </Button>
-
-                  <Button
-                    onClick={deleteExpense}
-                    className="ml-3 bg-red-500 text-white"
-                  >
-                    <Trash />
-                    Deletar Produto
-                  </Button>
                 </div>
-                
               </form>
             </Form>
+
+            <Button
+              onClick={deleteExpense}
+              className="mt-4 bg-red-500 hover:bg-red-500 hover:brightness-150 text-white "
+            >
+              <Trash />
+              Deletar Despesa
+            </Button>
           </div>
         </div>
       </SidebarInset>

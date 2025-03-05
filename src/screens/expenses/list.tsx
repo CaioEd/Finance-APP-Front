@@ -14,15 +14,16 @@ import { Separator } from '@radix-ui/react-dropdown-menu'
 
 import { DataTable } from './data-table'
 import { columns, Expenses } from './columns'
-import ApiProduct from './service'
 import { Link } from 'react-router-dom'
+
+import ApiExpenses from './service'
 
 
 export function ListExpenses() {
     const [expenses, setExpenses] = useState([] as Expenses[])
 
     const expensesList = async () => {
-        const response = await ApiProduct.GetAllRegisters()
+        const response = await ApiExpenses.GetAllExpenses()
         if (response) {
             setExpenses(response)
         } else {
@@ -52,7 +53,7 @@ export function ListExpenses() {
                                     </BreadcrumbItem>
                                     <BreadcrumbSeparator className='hidden md:block' />
                                     <BreadcrumbItem>
-                                        <BreadcrumbPage>Registros</BreadcrumbPage>
+                                        <BreadcrumbPage>Despesas</BreadcrumbPage>
                                     </BreadcrumbItem>
                                 </BreadcrumbList>
                             </Breadcrumb>

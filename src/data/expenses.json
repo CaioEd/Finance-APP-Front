@@ -1,0 +1,30 @@
+[
+    {
+      "value": "alimentacao",
+      "label": "Alimentação"
+    },
+    {
+      "value": "transporte",
+      "label": "Transporte"
+    },
+    {
+      "value": "moradia",
+      "label": "Moradia"
+    },
+    {
+      "value": "lazer",
+      "label": "Lazer"
+    },
+    {
+      "value": "saude",
+      "label": "Saúde"
+    },
+    {
+      "value": "educacao",
+      "label": "Educação"
+    },
+    {
+      "value": "outros",
+      "label": "Outros"
+    }
+  ]

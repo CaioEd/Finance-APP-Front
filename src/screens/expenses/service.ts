@@ -2,11 +2,11 @@ import axios from 'axios';
 import { id } from 'date-fns/locale';
 const BASE_URL = import .meta.env.VITE_API_URL;
 
-class ApiRegister {
-    static async GetAllRegisters() {
+class ApiExpenses {
+    static async GetAllExpenses() {
         try {
             const response = await axios.get(
-                `${BASE_URL}/registers`
+                `${BASE_URL}/expenses/`
             )
             console.log('response', response.data)
             if (response.status === 200) {
@@ -18,10 +18,10 @@ class ApiRegister {
         }
     }
 
-    static async GetRegisterByID({ id }) {
+    static async GetExpenseByID({ id }) {
         try {
             const response = await axios.get(
-                `${BASE_URL}/register/${id}`
+                `${BASE_URL}/expenses/${id}/`
             )
             if (response.status === 200) {
                 return response.data
@@ -35,7 +35,7 @@ class ApiRegister {
     static async Insert( data: any ) {
         try {
             const response = await axios.post(
-                `${BASE_URL}register`,
+                `${BASE_URL}/expenses/`,
                 data
             )
             if (response.status === 201) {
@@ -49,7 +49,7 @@ class ApiRegister {
 
     static async Update({ id, data }) {
         try {
-            const response = await axios.put(`${BASE_URL}/register/${id}`, data)
+            const response = await axios.put(`${BASE_URL}/expenses/${id}/`, data)
             if (response.status === 200) {
                 return response.status
             }
@@ -61,7 +61,7 @@ class ApiRegister {
 
     static async Delete ({ id }) {
         try {
-            const response = await axios.delete(`${BASE_URL}/register/${id}`)
+            const response = await axios.delete(`${BASE_URL}/expenses/${id}/`)
             if (response.status === 200) {
                 return response.status
             }
@@ -74,4 +74,4 @@ class ApiRegister {
 
 }
 
-export default ApiRegister
+export default ApiExpenses

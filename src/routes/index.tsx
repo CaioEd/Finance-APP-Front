@@ -46,7 +46,7 @@ export const AppRoutes = () => {
                     } 
                 /> 
 
-                <Route path="/icomes/edit/:id" element={
+                <Route path="/incomes/edit/:id" element={
                         <EditIncome />
                     } 
                 /> 
@@ -62,7 +62,7 @@ export const AppRoutes = () => {
                     } 
                 />
 
-                <Route path="/expense/edit/:id" element={
+                <Route path="/expenses/edit/:id" element={
                         <EditExpense />
                     } 
                 />

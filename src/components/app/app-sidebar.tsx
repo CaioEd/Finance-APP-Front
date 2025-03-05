@@ -45,15 +45,13 @@ import { useEffect, useState } from 'react'
 
 export function AppSidebar() {
 
-    const [userRole, setUserRole] =  useState('')
     const [userName, setUserName] = useState('')
 
     useEffect(() => {
-        const storedUserRole = localStorage.getItem("userRole");
-        const storedUserName = localStorage.getItem("userName");
+        const storedUserName = localStorage.getItem("username");
 
-        if ( storedUserRole && storedUserName ) {
-            setUserRole(storedUserRole);
+        if ( storedUserName ) {
+            console.log(storedUserName)
             setUserName(storedUserName);
     }
     }, [])
@@ -178,7 +176,7 @@ export function AppSidebar() {
                                             <AvatarFallback className='rounded-lg'></AvatarFallback>
                                         </Avatar>
                                         <div className='grid flex-1 text-left text-sm leading-tight'>
-                                            <span className='truncate font-semibold'>{userName} ({userRole})</span>
+                                            <span className='truncate font-semibold'>{userName}</span>
                                         </div>
                                     </div>
                                 </DropdownMenuLabel>

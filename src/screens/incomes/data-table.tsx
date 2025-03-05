@@ -63,9 +63,9 @@ export function DataTable<TData, TValue>({
 				<div className="flex justify-between items-center pb-4">
 					<Input
 						placeholder="Pesquisar por Título ..."
-						value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+						value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
 						onChange={(event) =>
-							table.getColumn("name")?.setFilterValue(event.target.value)
+							table.getColumn("title")?.setFilterValue(event.target.value)
 						}
 						className="max-w-sm ml-2 mt-1 mb-2"
 					/>

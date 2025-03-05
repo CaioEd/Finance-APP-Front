@@ -5,7 +5,8 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
-
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 export type Incomes = {
     id: string
@@ -39,7 +40,7 @@ export const columns = (setIncomes: React.Dispatch<React.SetStateAction<Incomes[
         },
         cell: ({ row }) => {
             return (
-                <p className='text-black dark:text-white text-[14.5px]'>{row.original.value}</p>
+                <p className='text-black dark:text-white text-[14.5px]'>R$ {row.original.value}</p>
             )
         }
     },
@@ -57,17 +58,20 @@ export const columns = (setIncomes: React.Dispatch<React.SetStateAction<Incomes[
         }
     },
     {
-        accessorKey: 'created_at',
-        header: () => {
-            return (
-                <p className='text-black dark:text-white text-[12px] font-extrabold text-xs uppercase'>Data de Criação</p>
-            )
-        },
-        cell: ({ row }) => {
-            return (
-                <p className='text-black dark:text-white text-[14.5px] subpixel-antialiased'>{row.original.created_at}</p>
-            )
-        }
+    accessorKey: 'created_at',
+    header: () => {
+        return (
+            <p className='text-black dark:text-white text-[12px] font-extrabold text-xs uppercase'>Data de Criação</p>
+        );
+    },
+    cell: ({ row }) => {
+        const rawDate = row.original.created_at;
+        const formattedDate = rawDate ? format(new Date(rawDate), 'dd/MM/yyyy', { locale: ptBR }) : 'Data inválida';
+
+        return (
+            <p className='text-black dark:text-white text-[14.5px] subpixel-antialiased'>{formattedDate}</p>
+        );
+    }
     },
     // {
     //     accessorKey: 'total_spent',

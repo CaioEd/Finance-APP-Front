@@ -36,8 +36,11 @@ import { AppSidebar } from "@/components/app/app-sidebar";
 import { ToggleTheme } from "@/components/toggleTheme";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
-import ApiProduct from "./service";
+import ApiIncomes from "./service";
+
 import { useEffect, useState } from "react";
+
+import incomes from '../../data/incomes.json'
 
 const FormSchema = z.object({
   title: z
@@ -62,7 +65,7 @@ export function AddIncome() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const response = await ApiProduct.Insert(data);
+      const response = await ApiIncomes.Insert(data);
       if (response) {
         toast.success("Receita adicionada com sucesso!");
         navigate("/incomes");
@@ -168,8 +171,9 @@ export function AddIncome() {
                             <SelectValue placeholder="Selecione uma categoria" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="opcao1">Opção 1</SelectItem>
-                            <SelectItem value="opcao2">Opção 2</SelectItem>
+                            {incomes.map((category) => (
+                              <SelectItem key={category.value} value={category.label}>{category.label}</SelectItem>
+                            ))}       
                           </SelectContent>
                         </Select>
                         <FormMessage />

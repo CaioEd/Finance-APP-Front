@@ -32,14 +32,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { ArrowBigUp } from "lucide-react";
+import { ArrowBigUp, Trash } from "lucide-react";
 
 import { AppSidebar } from "@/components/app/app-sidebar";
 import { ToggleTheme } from "@/components/toggleTheme";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
-import ApiService from "./service";
+import ApiIncomes from "./service";
+
 import { title } from "process";
+
+import incomes from '../../data/incomes.json'
 
 const FormSchema = z.object({
   title: z
@@ -49,7 +52,9 @@ const FormSchema = z.object({
   value: z
     .string()
     .min(1, { message: "O valor é obrigatório" })
-    .refine(val => !isNaN(Number(val)) && Number(val) > 0, { message: "O valor deve ser um número positivo" }),
+    .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+      message: "O valor deve ser um número positivo",
+    }),
   category: z.string().min(1, { message: "Selecione a categoria" }),
 });
 
@@ -65,11 +70,12 @@ export function EditIncome() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const response = await ApiService.Update({ id, data });
+      const response = await ApiIncomes.Update({ id, data });
       if (response === 200) {
         navigate("/incomes");
       } else {
-        toast.error("Error editing income");
+        
+        toast.error("Error editing income");       
       }
     } catch (error) {
       console.log(error, "error");
@@ -78,7 +84,7 @@ export function EditIncome() {
 
   const getIncome = async () => {
     try {
-      const response = await ApiService.GetProductByID({ id });
+      const response = await ApiIncomes.GetIncomeByID({ id });
       if (response) {
         form.setValue("title", response.title);
         form.setValue("value", response.value);
@@ -91,18 +97,19 @@ export function EditIncome() {
     }
   };
 
-  // const deleteIncome = async () => {
-  //   try {
-  //     const response = await ApiService.Delete({ id });
-  //     if (response) {
-  //       navigate("/registers");
-  //     } else {
-  //       toast.error("Error deleting the expense");
-  //     }
-  //   } catch (error) {
-  //     console.log(error, "error");
-  //   }
-  // };
+  const deleteIncome = async () => {
+    try {
+      const response = await ApiIncomes.Delete({ id });
+      if (response) {
+        navigate("/incomes");
+      } else {
+        navigate("/incomes")
+        toast.error("Error deleting income");
+      }
+    } catch (error) {
+      console.log(error, "error");
+    }
+  };
 
   useEffect(() => {
     getIncome();
@@ -143,7 +150,6 @@ export function EditIncome() {
           </div>
         </header>
         <div className="flex flex-1 flex-col  p-4 mt-1 mr-3 ml-3">
-
           <div className="flex items-center">
             <h1 className="mb-3 font-bold text-xl">Edite sua receita aqui</h1>
             <ArrowBigUp className="text-[#008000] mb-2 ml-1" />
@@ -152,7 +158,7 @@ export function EditIncome() {
           <div className="col-span-2 bg-white shadow-sm p-10 rounded-md dark:bg-[#292929]">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="flex items-center mt-5">
+                <div className="flex items-center mt-5">
                   <div className="w-1/2 mr-8">
                     <FormField
                       control={form.control}
@@ -201,8 +207,9 @@ export function EditIncome() {
                             <SelectValue placeholder="Selecione uma categoria" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="opcao1">Opção 1</SelectItem>
-                            <SelectItem value="opcao2">Opção 2</SelectItem>
+                            {incomes.map((category) => (
+                              <SelectItem key={category.value} value={category.label}>{category.label}</SelectItem>
+                            ))}   
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -219,10 +226,17 @@ export function EditIncome() {
                     Salvar Alterações
                   </Button>
                 </div>
-
               </form>
             </Form>
 
+            <Button
+              onClick={deleteIncome}
+              className="mt-4 bg-red-500 hover:bg-red-500 hover:brightness-150 text-white"
+            >
+              <Trash />
+              Deletar Receita
+            </Button>
+            
           </div>
         </div>
       </SidebarInset>
