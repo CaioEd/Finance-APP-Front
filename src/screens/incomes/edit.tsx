@@ -75,6 +75,7 @@ export function EditIncome() {
         navigate("/incomes");
       } else {
         toast.error("Error editing income");
+        navigate("/incomes")
       }
     } catch (error) {
       console.log(error, "error");
@@ -229,7 +230,7 @@ export function EditIncome() {
 
             <Button
               onClick={deleteIncome}
-              className="mt-4 bg-red-500 text-white"
+              className="mt-4 bg-red-500 hover:bg-red-500 hover:brightness-150 text-white"
             >
               <Trash />
               Deletar Receita

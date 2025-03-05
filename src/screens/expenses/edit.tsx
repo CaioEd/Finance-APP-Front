@@ -101,6 +101,7 @@ export function EditExpense() {
       if (response) {
         navigate("/expenses");
       } else {
+        navigate("/expenses")
         toast.error("Error deleting the expense");
       }
     } catch (error) {
@@ -242,9 +243,10 @@ export function EditExpense() {
                 </div>
               </form>
             </Form>
+
             <Button
               onClick={deleteExpense}
-              className="mt-4 bg-red-500 text-white"
+              className="mt-4 bg-red-500 hover:bg-red-500 hover:brightness-150 text-white "
             >
               <Trash />
               Deletar Despesa

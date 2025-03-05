@@ -1,6 +1,5 @@
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import BgImage from "../../assets/otp.svg";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -28,10 +27,9 @@ export function SignIn() {
 
     try {
       const response = await ApiSignin.Login({ data });
+      console.log(response, data)
       if (response) {
-        
-        // Salva o token no localStorage
-        console.log("Login bem-sucedido");
+    
         localStorage.setItem("authToken", response.token);
         localStorage.setItem("username", response.username);
         localStorage.setItem("tokenExpiration", response.expires);
@@ -39,7 +37,7 @@ export function SignIn() {
         toast.success("Login realizado com sucesso");
         navigate("/dashboard");
       } else {
-        toast.error("Credenciais inválidas");
+        toast.error("Credenciais inválidas!");
       }
     } catch (error) {
       console.error(error);
@@ -49,11 +47,7 @@ export function SignIn() {
 
   return (
     <main className="flex h-screen w-full">
-      <div className="bg-[#F0F0F0] dark:bg-[#212121] w-full h-full flex items-center justify-center">
-        <img src={BgImage} alt="My SVG" className="w-[50%] h-[50%]" />
-      </div>
-
-      <section className="flex bg-white max-w-3xl w-full dark:bg-[#212121] justify-center items-center flex-col">
+      <section className="flex bg-white w-full dark:bg-[#212121] justify-center items-center flex-col">
         <Card className="w-[360px] dark:bg-[#292929]">
           <CardHeader>
             <CircleDollarSign
@@ -61,7 +55,7 @@ export function SignIn() {
               style={{ width: "27px", height: "27px" }}
             />
             <div className="flex flex-col gap-0.5 leading-none">
-              <span className="font-semibold ">Finance Hub</span>
+              <span className="font-semibold">Finance Hub</span>
             </div>
             <hr />
           </CardHeader>
