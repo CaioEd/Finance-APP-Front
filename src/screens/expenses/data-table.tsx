@@ -136,7 +136,7 @@ export function DataTable<TData, TValue>({
           </div>
         </div>
 
-        <Popover>
+        {/* <Popover>
           <PopoverTrigger asChild>
             <Button
               id="date"
@@ -172,11 +172,11 @@ export function DataTable<TData, TValue>({
               locale={ptBR}
             />
           </PopoverContent>
-        </Popover>
+        </Popover> */}
 
-        <Button onClick={getFilteredData} className="ml-2 mr-5">
+        {/* <Button onClick={getFilteredData} className="ml-2 mr-5">
           <Filter />
-        </Button>
+        </Button> */}
 
         <Table>
           <TableHeader>
