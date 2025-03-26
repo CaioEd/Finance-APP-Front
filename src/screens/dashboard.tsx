@@ -23,6 +23,7 @@ import ApiDashboard from './service'
 export function Dashboard() {
     const [totalExpenses, setTotalExpenses] = useState('')
     const [totalIncomes, setTotalIncomes] = useState('')
+    const [balance, setBalance] = useState(0)
 
     async function getExpensesValue () {
         try {
@@ -48,9 +49,22 @@ export function Dashboard() {
         }
     }   
 
+    async function getBalance () {
+        try {
+            const response = await ApiDashboard.getBalance()
+            if (response) {
+                console.log(response)
+                setBalance(response.total_balance)
+            }
+        } catch (error) {
+            console.log(error, 'error to fetch balance')
+        }
+    }  
+
     useEffect(() => {
         getExpensesValue();
         getIncomesValue();
+        getBalance();
       }, []);
 
     return (
@@ -97,6 +111,28 @@ export function Dashboard() {
                             </div>
                             <div className='mt-10 text-center text-2xl text-red-500'>
                                 <p>- R$ {totalExpenses}</p>
+                            </div>
+                        </div>
+
+                        <div className='ml-5 col-span-3 bg-white shadow-sm p-5 w-2xl rounded-md dark:bg-[#292929]'>
+                            <div className='flex justify-between items-center'>
+                                <div>
+                                    <h1 className='text-[20px] text-[#09090B] font-semibold dark:text-white'>Balanço do mês</h1>
+                                </div>
+                            </div>
+                            <div className='mt-10 text-center text-2xl'>
+                                
+                                {balance >= 0 ? (
+                                    <div>
+                                        <p className='text-green-500'>R$ {balance}</p>
+                                        <p className='text-lg mt-3'>O balanço este mês é positivo</p>
+                                    </div>
+                                 ) : (
+                                    <div>
+                                        <p className='text-red-500'>R$ {balance}</p>
+                                        <p className='text-lg mt-3'>O balanço este mês é negativo</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
 

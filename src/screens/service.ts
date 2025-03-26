@@ -32,6 +32,21 @@ class ApiDashboard {
             console.log(error)
         }
     }
+
+    static async getBalance() {
+        try {
+            const response = await axios.get(
+                `${BASE_URL}/balance/month/`
+            )
+            if (response.status === 200) {
+                return response.data
+            }
+            
+            return response.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }
 
 export default ApiDashboard
