@@ -12,9 +12,46 @@ import { Separator } from '@radix-ui/react-dropdown-menu'
 import { SidebarInset, SidebarTrigger } from'@/components/ui/sidebar'
 import { ToggleTheme } from '@/components/toggleTheme'
 import { AppSidebar } from '@/components/app/app-sidebar'
+import {
+    ArrowBigUp,
+    ArrowBigDown,
+} from 'lucide-react'
+
+import ApiDashboard from './service'
 
 
 export function Dashboard() {
+    const [totalExpenses, setTotalExpenses] = useState('')
+    const [totalIncomes, setTotalIncomes] = useState('')
+
+    async function getExpensesValue () {
+        try {
+            const response = await ApiDashboard.getTotalExpenses()
+            if (response) {
+                console.log(response)
+                setTotalExpenses(response.total_expenses)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }    
+
+    async function getIncomesValue () {
+        try {
+            const response = await ApiDashboard.getTotalIncomes()
+            if (response) {
+                console.log(response)
+                setTotalIncomes(response.total_incomes)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }   
+
+    useEffect(() => {
+        getExpensesValue();
+        getIncomesValue();
+      }, []);
 
     return (
         <>
@@ -41,14 +78,25 @@ export function Dashboard() {
                 <div className='flex flex-1 flex-col p-4 mt-1'>
                     <div className='grid grid-cols-10 mt-1'>
 
-                        <div className='col-span-5 bg-white shadow-sm p-10 w-5xl rounded-md dark:bg-[#292929]'>
+                        <div className='col-span-3 bg-white shadow-sm p-5 w-2xl rounded-md dark:bg-[#292929]'>
                             <div className='flex justify-between items-center'>
                                 <div>
-                                    <h1 className='text-[20px] text-[#09090B] font-semibold dark:text-white'>Em breve....</h1>
+                                    <h1 className='text-[20px] text-[#09090B] font-semibold dark:text-white'>Total de Receitas <ArrowBigUp  className='text-green-500'/> </h1>
                                 </div>
                             </div>
-                            <div className='mt-10 text-center text-2xl'>
-                                <p>Em desenvolvimento...</p>
+                            <div className='mt-10 text-center text-2xl text-green-500'>
+                                <p>+ R$ {totalIncomes}</p>
+                            </div>
+                        </div>
+
+                        <div className='ml-5 col-span-3 bg-white shadow-sm p-5 w-2xl rounded-md dark:bg-[#292929]'>
+                            <div className='flex justify-between items-center'>
+                                <div>
+                                    <h1 className='text-[20px] text-[#09090B] font-semibold dark:text-white'>Total de Despesas <ArrowBigDown  className='text-red-500'/> </h1>
+                                </div>
+                            </div>
+                            <div className='mt-10 text-center text-2xl text-red-500'>
+                                <p>- R$ {totalExpenses}</p>
                             </div>
                         </div>
 
