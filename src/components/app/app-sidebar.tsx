@@ -8,6 +8,7 @@ import {
     ChevronsUpDown,
     LayoutDashboard,
     LogOut,
+    Receipt,
     User,
 } from 'lucide-react'
 
@@ -97,6 +98,15 @@ export function AppSidebar() {
                     <SidebarGroupLabel>Financeiro</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
+
+                            <SidebarMenuItem>
+                                <Link to='/balance' className='flex items-center ml-2'>
+                                    <SidebarMenuButton className='h-12 hover:bg-[#23CFCE] dark:hover:bg-[#23CFCE] dark:hover:text-black'>
+                                        <Receipt style={{ width: '21px', height: '21px' }} strokeWidth={2.5} />
+                                        <span className='font-mono ml-4'>Saldos</span>
+                                    </SidebarMenuButton>
+                                </Link>
+                            </SidebarMenuItem>
 
                             <SidebarMenuItem>
                                 <Link to='/incomes' className='flex items-center ml-2'>
