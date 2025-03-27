@@ -117,7 +117,7 @@ export function Dashboard() {
                         <div className='ml-5 col-span-3 bg-white shadow-sm p-5 w-2xl rounded-md dark:bg-[#292929]'>
                             <div className='flex justify-between items-center'>
                                 <div>
-                                    <h1 className='text-[20px] text-[#09090B] font-semibold dark:text-white'>Balanço do mês</h1>
+                                    <h1 className='text-[20px] text-[#09090B] font-semibold dark:text-white'>Saldo do mês</h1>
                                 </div>
                             </div>
                             <div className='mt-10 text-center text-2xl'>
@@ -125,12 +125,12 @@ export function Dashboard() {
                                 {balance >= 0 ? (
                                     <div>
                                         <p className='text-green-500'>R$ {balance}</p>
-                                        <p className='text-lg mt-3'>O balanço este mês é positivo</p>
+                                        <p className='text-lg mt-3'>O seu saldo este mês é positivo</p>
                                     </div>
                                  ) : (
                                     <div>
                                         <p className='text-red-500'>R$ {balance}</p>
-                                        <p className='text-lg mt-3'>O balanço este mês é negativo</p>
+                                        <p className='text-lg mt-3'>O seu saldo este mês é negativo</p>
                                     </div>
                                 )}
                             </div>

@@ -14,6 +14,7 @@ import { EditIncome } from '@/screens/incomes/edit'
 import { ListExpenses } from '@/screens/expenses/list'
 import { AddExpense } from '@/screens/expenses/add'
 import { EditExpense } from '@/screens/expenses/edit'
+import { ListBalances } from '@/screens/balance/list'
 import { Unauthorized } from '@/screens/unauthorized'
 
 
@@ -70,6 +71,11 @@ export const AppRoutes = () => {
                 <Route path='/unauthorized' element={
                     <Unauthorized />
                 } 
+                />
+
+                <Route path='/balance' element={
+                    <ListBalances />
+                }
                 />
 
             </Routes>

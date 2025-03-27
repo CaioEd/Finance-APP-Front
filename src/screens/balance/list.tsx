@@ -13,28 +13,28 @@ import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 
 import { DataTable } from './data-table'
-import { columns, Incomes } from './columns'
+import { columns, Balance } from './columns'
 import { Link } from 'react-router-dom'
 
-import ApiIncomes from './service'
+import ApiBalance from './service'
 
 
-export function ListIncomes() {
-    const [incomes, setIncomes] = useState([] as Incomes[])
+export function ListBalances() {
+    const [balances, setBalances] = useState([] as Balance[])
 
-    const incomesList = async () => {
-        const response = await ApiIncomes.GetAllIncomes()
+    const listBalances = async () => {
+        const response = await ApiBalance.getAllBalances()
+        console.log(response)
         if (response) {
-            setIncomes(response)
+            setBalances(response)
         } else {
-            console.log('Failed to get incomes')
+            console.log('Failed to get balances')
         }
     }
-    
+
     useEffect(() => {
-        incomesList()
+        listBalances()
     }, [])
-    
 
     return (
         <>
@@ -53,7 +53,7 @@ export function ListIncomes() {
                                     </BreadcrumbItem>
                                     <BreadcrumbSeparator className='hidden md:block' />
                                     <BreadcrumbItem>
-                                        <BreadcrumbPage>Receitas</BreadcrumbPage>
+                                        <BreadcrumbPage>Saldos</BreadcrumbPage>
                                     </BreadcrumbItem>
                                 </BreadcrumbList>
                             </Breadcrumb>
@@ -67,7 +67,7 @@ export function ListIncomes() {
 
                 <div className='flex flex-1 flex-col  p-4 mt-1 mr-3 ml-3'>
                     <div className='col-span-2 bg-white shadow-sm p-10 rounded-md dark:bg-[#292929]'>
-                        <DataTable columns={columns(setIncomes)} data={incomes} />
+                        <DataTable columns={columns(setBalances)} data={balances} />
                     </div>
                 </div> 
             </SidebarInset>
