@@ -7,7 +7,13 @@ import {
     BreadcrumbLink
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@radix-ui/react-dropdown-menu'
-
+import { 
+    Select, 
+    SelectTrigger, 
+    SelectContent, 
+    SelectItem, 
+    SelectValue 
+} from "@/components/ui/select"
 
 import { SidebarInset, SidebarTrigger } from'@/components/ui/sidebar'
 import { ToggleTheme } from '@/components/toggleTheme'
@@ -24,6 +30,24 @@ export function Dashboard() {
     const [totalExpenses, setTotalExpenses] = useState('')
     const [totalIncomes, setTotalIncomes] = useState('')
     const [balance, setBalance] = useState(0)
+
+    const [month, setMonth] = useState('')
+    const [year, setYear] = useState('')
+
+    const months = [
+        { name: "Janeiro", value: "01" },
+        { name: "Fevereiro", value: "02" },
+        { name: "Março", value: "03" },
+        { name: "Abril", value: "04" },
+        { name: "Maio", value: "05" },
+        { name: "Junho", value: "06" },
+        { name: "Julho", value: "07" },
+        { name: "Agosto", value: "08" },
+        { name: "Setembro", value: "09" },
+        { name: "Outubro", value: "10" },
+        { name: "Novembro", value: "11" },
+        { name: "Dezembro", value: "12" },
+    ]
 
     async function getExpensesValue () {
         try {
@@ -61,6 +85,18 @@ export function Dashboard() {
         }
     }  
 
+    const handleFilter = async () => {
+        try {
+            const data = { month, year }
+            console.log("Enviando:", data)
+
+            // const response = await ApiDashboard.sendDate(data)
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+
     useEffect(() => {
         getExpensesValue();
         getIncomesValue();
@@ -90,8 +126,45 @@ export function Dashboard() {
                 </header>
 
                 <div className='flex flex-1 flex-col p-4 mt-1'>
-                    <div className='grid grid-cols-10 mt-1'>
+                    <div className='flex gap-5 mt-3'>
+                        <div>
+                            <label className="block mb-1 text-sm">Mês</label>
+                                <Select onValueChange={setMonth}>
+                                    <SelectTrigger className="w-[150px]">
+                                        <SelectValue placeholder="Selecione o mês" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {months.map((m) => (
+                                        <SelectItem key={m.value} value={m.value}>{m.name}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>    
+                        </div>
 
+                        <div>
+                            <label className="block mb-1 text-sm">Ano</label>
+                            <Select onValueChange={setYear}>
+                            <SelectTrigger className="w-[120px]">
+                                <SelectValue placeholder="Selecione o ano" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {[...Array(10)].map((_, i) => {
+                                const y = 2020 + i
+                                return <SelectItem key={y} value={String(y)}>{y}</SelectItem>
+                                })}
+                            </SelectContent>
+                            </Select>
+                        </div>
+
+                        <button
+                            className="mt-6 h-10 bg-[#23CFCE] text-white px-5 py-2 rounded-md hover:opacity-90"
+                            onClick={handleFilter}
+                        >
+                            Filtrar
+                        </button>
+                    </div>
+
+                    <div className='grid grid-cols-10 mt-5'>
                         <div className='col-span-3 bg-white shadow-sm p-5 w-2xl rounded-md dark:bg-[#292929]'>
                             <div className='flex justify-between items-center'>
                                 <div>
