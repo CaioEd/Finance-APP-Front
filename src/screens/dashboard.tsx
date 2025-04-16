@@ -31,6 +31,7 @@ export function Dashboard() {
         from: new Date(),  // Data inicial padrão (hoje)
         to: new Date(), // Data final padrão (hoje)
     }) 
+    const [actualMonth, setActualMonth] = useState('')
     
     async function getExpensesValue () {
         try {
@@ -88,10 +89,19 @@ export function Dashboard() {
         }
     } 
 
+    const getActualmonth = () => {
+        const data = new Date();
+        const month = new Intl.DateTimeFormat('pt-BR', { month: 'long' })
+        .format(data);
+
+        setActualMonth(month.charAt(0).toLocaleUpperCase() + month.slice(1))
+    }
+
     useEffect(() => {
         getExpensesValue();
         getIncomesValue();
         getBalance();
+        getActualmonth();
       }, []);
 
     return (
@@ -117,6 +127,7 @@ export function Dashboard() {
                 </header>
 
                 <div className='flex flex-1 flex-col p-4 mt-1'>
+                    
                     <div className='flex gap-5 mt-3'>
                         <Popover>
                             <PopoverTrigger className='bg-[#23CFCE]' asChild>
@@ -156,6 +167,10 @@ export function Dashboard() {
                         >
                             Filtrar
                         </button>
+                    </div>
+
+                    <div className='mt-5 font-semibold'>
+                        Balanço de {actualMonth}
                     </div>
 
                     <div className='grid grid-cols-10 mt-5'>
