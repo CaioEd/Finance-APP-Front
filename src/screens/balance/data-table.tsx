@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,6 +14,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import { Pager } from "@/components/app/pagination";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -21,17 +25,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Input } from "@/components/ui/input"
-
-import { Link } from "react-router-dom"
-import { Pager } from "@/components/app/pagination"
-
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
 }
-
 
 export function DataTable<TData, TValue>({
     columns,

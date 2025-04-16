@@ -1,5 +1,9 @@
 "use client";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { addDays, format, startOfWeek } from "date-fns";
+import { DateRange } from "react-day-picker";
+
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,6 +16,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import { Pager } from "@/components/app/pagination";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -21,24 +27,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Input } from "@/components/ui/input";
 
-import { Link } from "react-router-dom";
-import { Pager } from "@/components/app/pagination";
-import { Button } from "@/components/ui/button";
-
-import { addDays, format, startOfWeek } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { Calendar as CalendarIcon, Filter } from "lucide-react";
-import { DateRange } from "react-day-picker";
-
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

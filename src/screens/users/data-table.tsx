@@ -1,30 +1,34 @@
 "use client"
-import { useState } from "react"
+import { useState } from "react";
+
+// React Table imports
 import {
-	ColumnDef,
-	ColumnFiltersState,
-	SortingState,
-	flexRender,
-	getCoreRowModel,
-	getFilteredRowModel,
-	getPaginationRowModel,
-	getSortedRowModel,
-	useReactTable,
-} from "@tanstack/react-table"
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 
+// UI components imports
 import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table"
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
+import { Pager } from "@/components/app/pagination";
 
-import { Link } from "react-router-dom"
-import { Pager } from "@/components/app/pagination"
+// Router import
+import { Link } from "react-router-dom";
 
 
 interface DataTableProps<TData, TValue> {

@@ -1,31 +1,27 @@
 "use client"
+import { useState, useEffect } from 'react';
+import { ArrowBigUp, ArrowBigDown, CalendarIcon } from 'lucide-react';
+import { format } from 'date-fns';
+import { DateRange } from 'react-day-picker';
 
-import { useState, useEffect } from 'react'
-import {
-    ArrowBigUp,
-    ArrowBigDown,
-    CalendarIcon,
-} from 'lucide-react'
 import { 
     Breadcrumb, 
     BreadcrumbList, 
     BreadcrumbItem, 
-    BreadcrumbLink
-} from '@/components/ui/breadcrumb'
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Separator } from '@radix-ui/react-dropdown-menu'
+    BreadcrumbLink 
+} from '@/components/ui/breadcrumb';
 
-import { cn } from "@/lib/utils";
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Separator } from '@radix-ui/react-dropdown-menu';
 
-import { SidebarInset, SidebarTrigger } from'@/components/ui/sidebar'
-import { ToggleTheme } from '@/components/toggleTheme'
-import { AppSidebar } from '@/components/app/app-sidebar'
-import { DateRange } from 'react-day-picker'
+import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
+import { ToggleTheme } from '@/components/toggleTheme';
+import { AppSidebar } from '@/components/app/app-sidebar';
 
-import ApiDashboard from './service'
+import ApiDashboard from './service';
+
 
 export function Dashboard() {
     const [totalExpenses, setTotalExpenses] = useState('')

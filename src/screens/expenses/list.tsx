@@ -1,22 +1,23 @@
-import { useState, useEffect } from 'react'
-import { AppSidebar } from '@/components/app/app-sidebar'
-import { ToggleTheme } from '@/components/toggleTheme'
-import { 
-    Breadcrumb, 
-    BreadcrumbList, 
-    BreadcrumbItem, 
-    BreadcrumbLink, 
-    BreadcrumbPage, 
-    BreadcrumbSeparator 
-} from '@/components/ui/breadcrumb'
-import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
-import { Separator } from '@radix-ui/react-dropdown-menu'
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-import { DataTable } from './data-table'
-import { columns, Expenses } from './columns'
-import { Link } from 'react-router-dom'
+import { AppSidebar } from "@/components/app/app-sidebar";
+import { ToggleTheme } from "@/components/toggleTheme";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { Separator } from "@radix-ui/react-dropdown-menu";
 
-import ApiExpenses from './service'
+import { DataTable } from "./data-table";
+import { columns, Expenses } from "./columns";
+
+import ApiExpenses from "./service";
 
 
 export function ListExpenses() {

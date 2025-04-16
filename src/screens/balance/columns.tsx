@@ -1,9 +1,10 @@
-import React from 'react'
-import { ColumnDef } from '@tanstack/react-table'
-import { Button } from '@/components/ui/button'
-import { Link } from 'react-router-dom'
+import React from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { Link } from 'react-router-dom';
+import { ColumnDef } from '@tanstack/react-table';
+
+import { Button } from '@/components/ui/button';
 
 
 export type Balance = {
@@ -13,7 +14,6 @@ export type Balance = {
     total_expense: string
     total_balance: string
 }
-
 
 export const columns = (setBalance: React.Dispatch<React.SetStateAction<Balance[]>>): ColumnDef<Balance>[] => [
     {

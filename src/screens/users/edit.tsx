@@ -1,12 +1,17 @@
-import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { Separator } from '@radix-ui/react-dropdown-menu'
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { toast } from 'sonner'
+import { useEffect, useState } from 'react'; // React hooks
+import { Link, useNavigate, useParams } from 'react-router-dom'; // React Router
+
+import { Separator } from '@radix-ui/react-dropdown-menu'; // Radix UI separator
+import { z } from 'zod'; // Zod schema validation
+import { useForm } from 'react-hook-form'; // React Hook Form
+import { zodResolver } from '@hookform/resolvers/zod'; // Zod resolver for react-hook-form
+
+// UI components
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { toast } from 'sonner'; // Toast notifications
+
+// Breadcrumb components
 import { 
     Breadcrumb, 
     BreadcrumbList, 
@@ -14,26 +19,28 @@ import {
     BreadcrumbLink, 
     BreadcrumbPage, 
     BreadcrumbSeparator 
-} from '@/components/ui/breadcrumb'
+} from '@/components/ui/breadcrumb';
 
+// Form components
 import {
     Form,
-    FormControl,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
-} from '@/components/ui/form'
+} from '@/components/ui/form';
 
-
-import { AppSidebar } from '@/components/app/app-sidebar'
-import { ToggleTheme } from '@/components/toggleTheme'
+// Sidebar components
+import { AppSidebar } from '@/components/app/app-sidebar';
+import { ToggleTheme } from '@/components/toggleTheme';
 import { 
     SidebarInset, 
     SidebarTrigger 
-} from '@/components/ui/sidebar'
+} from '@/components/ui/sidebar';
 
-import ApiUser from './service'
+// Service file
+import ApiUser from './service';
+
 
 const FormSchema = z.object({
     name: z.string().min(1, {message: 'Mínimo 3 caracteres'}),

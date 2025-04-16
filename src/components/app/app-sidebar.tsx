@@ -1,48 +1,49 @@
 'use client'
-import {
-    ArrowBigUp,
-    ArrowBigDown,
-    BadgeCheck,
-    Bell,
-    CircleDollarSign,
-    ChevronsUpDown,
-    LayoutDashboard,
-    LogOut,
-    Receipt,
-    User,
-} from 'lucide-react'
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage
-} from '@/components/ui/avatar'
+  ArrowBigDown,
+  ArrowBigUp,
+  BadgeCheck,
+  Bell,
+  ChevronsUpDown,
+  CircleDollarSign,
+  LayoutDashboard,
+  LogOut,
+  Receipt,
+  User,
+} from 'lucide-react';
 
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/ui/avatar';
 
 import {
-    Sidebar,
-    SidebarContent,
-    SidebarFooter,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarHeader,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem
-} from '@/components/ui/sidebar'
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
-import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from '@/components/ui/sidebar';
+
 
 export function AppSidebar() {
 
