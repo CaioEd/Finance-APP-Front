@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowBigUp, ArrowBigDown, CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { DateRange } from 'react-day-picker';
 
 import { 
@@ -76,6 +77,11 @@ export function Dashboard() {
             // Formata as datas para YYYY-MM-DD (padrão ISO)
             const start_date = format(dateRange.from, 'yyyy-MM-dd');
             const end_date = format(dateRange.to, 'yyyy-MM-dd');
+
+            setActualMonth(
+                format(dateRange.from, 'MMMM', { locale: ptBR }).charAt(0).toUpperCase() +
+                format(dateRange.from, 'MMMM', { locale: ptBR }).slice(1)
+            )
 
             const response = await ApiDashboard.getBalanceByDate(start_date, end_date)
             console.log(response)
