@@ -1,54 +1,41 @@
-// const SSE_URL = import .meta.env.VITE_API_SSE_URL
+"use client"
+
 import { useState, useEffect } from 'react'
+import {
+    ArrowBigUp,
+    ArrowBigDown,
+    CalendarIcon,
+} from 'lucide-react'
 import { 
     Breadcrumb, 
     BreadcrumbList, 
     BreadcrumbItem, 
     BreadcrumbLink
 } from '@/components/ui/breadcrumb'
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from '@radix-ui/react-dropdown-menu'
-import { 
-    Select, 
-    SelectTrigger, 
-    SelectContent, 
-    SelectItem, 
-    SelectValue 
-} from "@/components/ui/select"
+
+import { cn } from "@/lib/utils";
 
 import { SidebarInset, SidebarTrigger } from'@/components/ui/sidebar'
 import { ToggleTheme } from '@/components/toggleTheme'
 import { AppSidebar } from '@/components/app/app-sidebar'
-import {
-    ArrowBigUp,
-    ArrowBigDown,
-} from 'lucide-react'
+import { DateRange } from 'react-day-picker'
 
 import ApiDashboard from './service'
-
 
 export function Dashboard() {
     const [totalExpenses, setTotalExpenses] = useState('')
     const [totalIncomes, setTotalIncomes] = useState('')
     const [balance, setBalance] = useState(0)
-
-    const [month, setMonth] = useState('')
-    const [year, setYear] = useState('')
-
-    const months = [
-        { name: "Janeiro", value: "01" },
-        { name: "Fevereiro", value: "02" },
-        { name: "Março", value: "03" },
-        { name: "Abril", value: "04" },
-        { name: "Maio", value: "05" },
-        { name: "Junho", value: "06" },
-        { name: "Julho", value: "07" },
-        { name: "Agosto", value: "08" },
-        { name: "Setembro", value: "09" },
-        { name: "Outubro", value: "10" },
-        { name: "Novembro", value: "11" },
-        { name: "Dezembro", value: "12" },
-    ]
-
+    const [dateRange, setDateRange] = useState<DateRange | undefined>({
+        from: new Date(),  // Data inicial padrão (hoje)
+        to: new Date(), // Data final padrão (hoje)
+    }) 
+    
     async function getExpensesValue () {
         try {
             const response = await ApiDashboard.getTotalExpenses()
@@ -86,16 +73,24 @@ export function Dashboard() {
     }  
 
     const handleFilter = async () => {
-        try {
-            const data = { month, year }
-            console.log("Enviando:", data)
+        if (!dateRange?.from || !dateRange?.to) return // Verifica se as datas estão definidas
 
-            // const response = await ApiDashboard.sendDate(data)
+        try {
+            // Formata as datas para YYYY-MM-DD (padrão ISO)
+            const start_date = format(dateRange.from, 'yyyy-MM-dd');
+            const end_date = format(dateRange.to, 'yyyy-MM-dd');
+
+            const response = await ApiDashboard.getBalanceByDate(start_date, end_date)
+            console.log(response)
+            if (response) {
+                setTotalExpenses(response.expenses || '');
+                setTotalIncomes(response.incomes || '');
+                setBalance(response.total_balance || 0);
+            }
         } catch (error) {
-            console.log(error)
+            console.log(error, 'error to fetch balance by date')
         }
-        
-    }
+    } 
 
     useEffect(() => {
         getExpensesValue();
@@ -127,37 +122,40 @@ export function Dashboard() {
 
                 <div className='flex flex-1 flex-col p-4 mt-1'>
                     <div className='flex gap-5 mt-3'>
-                        <div>
-                            <label className="block mb-1 text-sm">Mês</label>
-                                <Select onValueChange={setMonth}>
-                                    <SelectTrigger className="w-[150px]">
-                                        <SelectValue placeholder="Selecione o mês" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {months.map((m) => (
-                                        <SelectItem key={m.value} value={m.value}>{m.name}</SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>    
-                        </div>
-
-                        <div>
-                            <label className="block mb-1 text-sm">Ano</label>
-                            <Select onValueChange={setYear}>
-                            <SelectTrigger className="w-[120px]">
-                                <SelectValue placeholder="Selecione o ano" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {[...Array(10)].map((_, i) => {
-                                const y = 2020 + i
-                                return <SelectItem key={y} value={String(y)}>{y}</SelectItem>
-                                })}
-                            </SelectContent>
-                            </Select>
-                        </div>
+                        <Popover>
+                            <PopoverTrigger className='bg-[#23CFCE]' asChild>
+                                <Button
+                                    variant={"outline"}
+                                    className="w-[280px] justify-start text-left font-normal"
+                                >
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {dateRange?.from ? (
+                                        dateRange.to ? (
+                                            <>
+                                                {format(dateRange.from, "dd/MM/yyyy")} -{" "}
+                                                {format(dateRange.to, "dd/MM/yyyy")}
+                                            </>
+                                        ) : (
+                                            format(dateRange.from, "dd/MM/yyyy")
+                                        )
+                                    ) : (
+                                        <span>Selecione um intervalo</span>
+                                    )}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0 dark:bg-white dark:text-black" align="start">
+                                <Calendar
+                                    mode="range"
+                                    selected={dateRange}
+                                    onSelect={setDateRange}
+                                    numberOfMonths={2} // Mostra 2 meses lado a lado
+                                    initialFocus
+                                />
+                            </PopoverContent>
+                        </Popover>                        
 
                         <button
-                            className="mt-6 h-10 bg-[#23CFCE] text-white px-5 py-2 rounded-md hover:opacity-90"
+                            className="h-10 bg-[#23CFCE] text-white px-5 py-2 rounded-md hover:opacity-90"
                             onClick={handleFilter}
                         >
                             Filtrar
