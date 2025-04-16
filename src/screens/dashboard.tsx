@@ -32,7 +32,7 @@ export function Dashboard() {
     const [totalIncomes, setTotalIncomes] = useState('')
     const [balance, setBalance] = useState(0)
     const [dateRange, setDateRange] = useState<DateRange | undefined>({
-        fromt: new Date(),  // Data inicial padrão (hoje)
+        from: new Date(),  // Data inicial padrão (hoje)
         to: new Date(), // Data final padrão (hoje)
     }) 
     
@@ -72,8 +72,6 @@ export function Dashboard() {
         }
     }  
 
-    // /api/balance/date/?start_date=2025-04-01&end_date=2025-05-01
-
     const handleFilter = async () => {
         if (!dateRange?.from || !dateRange?.to) return // Verifica se as datas estão definidas
 
@@ -83,10 +81,10 @@ export function Dashboard() {
             const end_date = format(dateRange.to, 'yyyy-MM-dd');
 
             const response = await ApiDashboard.getBalanceByDate(start_date, end_date)
-
+            console.log(response)
             if (response) {
-                setTotalExpenses(response.total_expenses || '');
-                setTotalIncomes(response.total_incomes || '');
+                setTotalExpenses(response.expenses || '');
+                setTotalIncomes(response.incomes || '');
                 setBalance(response.total_balance || 0);
             }
         } catch (error) {
@@ -125,7 +123,7 @@ export function Dashboard() {
                 <div className='flex flex-1 flex-col p-4 mt-1'>
                     <div className='flex gap-5 mt-3'>
                         <Popover>
-                            <PopoverTrigger asChild>
+                            <PopoverTrigger className='bg-[#23CFCE]' asChild>
                                 <Button
                                     variant={"outline"}
                                     className="w-[280px] justify-start text-left font-normal"
@@ -145,7 +143,7 @@ export function Dashboard() {
                                     )}
                                 </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
+                            <PopoverContent className="w-auto p-0 dark:bg-white dark:text-black" align="start">
                                 <Calendar
                                     mode="range"
                                     selected={dateRange}
@@ -157,7 +155,7 @@ export function Dashboard() {
                         </Popover>                        
 
                         <button
-                            className="mt-6 h-10 bg-[#23CFCE] text-white px-5 py-2 rounded-md hover:opacity-90"
+                            className="h-10 bg-[#23CFCE] text-white px-5 py-2 rounded-md hover:opacity-90"
                             onClick={handleFilter}
                         >
                             Filtrar
