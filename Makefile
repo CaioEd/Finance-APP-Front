@@ -11,7 +11,6 @@ help:
 	@echo "  $(COLOR_GREEN)install$(COLOR_RESET)		- Install Dependencies"
 	@echo "  $(COLOR_GREEN)run$(COLOR_RESET)			- Run Local Machine"
 	@echo "  $(COLOR_GREEN)build$(COLOR_RESET)			- Run Build Image"
-	@echo "  $(COLOR_GREEN)production$(COLOR_RESET)		- Production Deployment"
 	@echo ""
 	@echo "  $(COLOR_YELLOW)Note:$(COLOR_RESET) Use 'make <target>' to execute a specific target."
 	@echo ""
@@ -21,3 +20,6 @@ install:
 
 run:
 	npm run dev
+
+build:
+	npm run build

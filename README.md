@@ -1,5 +1,6 @@
 # Finance APP
 Web app used for financial control. Using React + Typescript.
+Aplication takes data from API: https://github.com/CaioEd/Finance-APP
 
 ## Commands ##
 All commands are in Makefile
@@ -16,6 +17,15 @@ All commands are in Makefile
 1) make run 
 ```
 
+## Run Build ##
+```shell
+1) make build
+```
+
 ### Software ##
 - React JS
 - Typescript
+
+### Components ##
+- Shadcn ui 
+Documentation: https://ui.shadcn.com/
