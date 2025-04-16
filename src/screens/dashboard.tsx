@@ -158,11 +158,24 @@ export function Dashboard() {
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0 dark:bg-white dark:text-black" align="start">
                                 <Calendar
-                                    mode="range"
-                                    selected={dateRange}
-                                    onSelect={setDateRange}
-                                    numberOfMonths={2} // Mostra 2 meses lado a lado
-                                    initialFocus
+                                mode="range"
+                                selected={dateRange}
+                                onSelect={setDateRange}
+                                numberOfMonths={2}
+                                initialFocus
+                                classNames={{
+                                    months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+                                    month: "space-y-4",
+                                    table: "w-full border-collapse space-y-1",
+                                    head_row: "flex",
+                                    head_cell: "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+                                    row: "flex w-full mt-2",
+                                    cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md",
+                                    day: "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
+                                    day_range_end: "day-range-end",
+                                    day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground",
+                                    day_today: "bg-accent text-accent-foreground",
+                                }}
                                 />
                             </PopoverContent>
                         </Popover>                        
