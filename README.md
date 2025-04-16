@@ -1,5 +1,6 @@
 # Finance APP
 Web app used for financial control. Using React + Typescript.
+<br>
 Aplication takes data from API: https://github.com/CaioEd/Finance-APP
 
 ## Commands ##
