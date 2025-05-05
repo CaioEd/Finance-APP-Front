@@ -136,7 +136,7 @@ export function Dashboard() {
                     
                     <div className='flex gap-5 mt-3'>
                         <Popover>
-                            <PopoverTrigger className='bg-[#23CFCE]' asChild>
+                            <PopoverTrigger className='bg-white dark:bg-[#292929]' asChild>
                                 <Button
                                     variant={"outline"}
                                     className="w-[280px] justify-start text-left font-normal"
