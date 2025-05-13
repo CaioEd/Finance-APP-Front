@@ -103,6 +103,34 @@ export function Dashboard() {
         setActualMonth(month.charAt(0).toLocaleUpperCase() + month.slice(1))
     }
 
+    const downloadPdf = async () => {
+        if (!dateRange?.from || !dateRange?.to) return 
+
+        try {
+            const start_date = format(dateRange.from, 'yyyy-MM-dd');
+            const end_date = format(dateRange.to, 'yyyy-MM-dd');
+
+            setActualMonth(
+                format(dateRange.from, 'MMMM', { locale: ptBR }).charAt(0).toUpperCase() +
+                format(dateRange.from, 'MMMM', { locale: ptBR }).slice(1)
+            )
+
+            const response = await ApiDashboard.downloadPdfApi(start_date, end_date)
+
+            const blob = await response.blob()
+            const url = window.URL.createObjectURL(blob)
+
+            const link = document.createElement('a')
+            link.href = url;
+            link.download = `balanco_${start_date}_a_${end_date}.pdf`;
+            link.click();
+
+            window.URL.revokeObjectURL(url)
+        } catch (error) {
+            console.log(error, 'error on download')
+        }
+    }
+
     useEffect(() => {
         getExpensesValue();
         getIncomesValue();
@@ -118,7 +146,7 @@ export function Dashboard() {
                 <header className='flex justify-between h-16 mt-3 ml-3 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12'>
                     <div className='flex items-center gap-2 px-4'>
                         <SidebarTrigger className='-ml-1' />
-                            <Separator orientation='vertical' className='mr-2 h-4' />
+                            <Separator  className='mr-2 h-4' />
                             <Breadcrumb>
                                 <BreadcrumbList>
                                     <BreadcrumbItem className='hidden md:block'>
@@ -185,6 +213,13 @@ export function Dashboard() {
                             onClick={handleFilter}
                         >
                             Filtrar
+                        </button>
+
+                        <button
+                            className="h-10 bg-[#23CFCE] text-white px-5 py-2 rounded-md hover:opacity-90"
+                            onClick={downloadPdf}
+                        >
+                            Baixar Resumo (PDF)
                         </button>
                     </div>
 
