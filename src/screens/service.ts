@@ -60,6 +60,18 @@ class ApiDashboard {
             console.log(error)
         }
     }
+
+    static async downloadPdfApi(start_date: string, end_date: string) {
+        return axios.get(
+            `${BASE_URL}/download/balance/date/?start_date=${start_date}&end_date=${end_date}`,
+            {
+                responseType: 'blob',
+            }
+        );
+    }
+
+
+
 }
 
 export default ApiDashboard
