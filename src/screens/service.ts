@@ -62,17 +62,15 @@ class ApiDashboard {
     }
 
     static async downloadPdfApi(start_date: string, end_date: string) {
-        try {
-            const response = await axios.get(
-                `${BASE_URL}/download/balance/date/?start_date=${start_date}&end_date=${end_date}`
-            )
-            if (response.status === 200) {
-                return response.data
+        return axios.get(
+            `${BASE_URL}/download/balance/date/?start_date=${start_date}&end_date=${end_date}`,
+            {
+                responseType: 'blob',
             }
-        } catch (error) {
-            console.log(error)
-        }
+        );
     }
+
+
 
 }
 

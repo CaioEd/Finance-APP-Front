@@ -104,32 +104,27 @@ export function Dashboard() {
     }
 
     const downloadPdf = async () => {
-        if (!dateRange?.from || !dateRange?.to) return 
+        if (!dateRange?.from || !dateRange?.to) return;
 
         try {
             const start_date = format(dateRange.from, 'yyyy-MM-dd');
             const end_date = format(dateRange.to, 'yyyy-MM-dd');
 
-            setActualMonth(
-                format(dateRange.from, 'MMMM', { locale: ptBR }).charAt(0).toUpperCase() +
-                format(dateRange.from, 'MMMM', { locale: ptBR }).slice(1)
-            )
+            const response = await ApiDashboard.downloadPdfApi(start_date, end_date);
 
-            const response = await ApiDashboard.downloadPdfApi(start_date, end_date)
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
 
-            const blob = await response.blob()
-            const url = window.URL.createObjectURL(blob)
-
-            const link = document.createElement('a')
+            const link = document.createElement('a');
             link.href = url;
             link.download = `balanco_${start_date}_a_${end_date}.pdf`;
             link.click();
-
-            window.URL.revokeObjectURL(url)
+            window.URL.revokeObjectURL(url);
         } catch (error) {
-            console.log(error, 'error on download')
+            console.log(error, 'error on download');
         }
-    }
+    };
+
 
     useEffect(() => {
         getExpensesValue();

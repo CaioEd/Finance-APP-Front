@@ -2,6 +2,7 @@ import React from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { 
     Pen,
+    Trash,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
