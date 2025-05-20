@@ -1,13 +1,11 @@
 class Storage {
-    static async StoreUserData(data) {
-        const name = data['user']
-        const token = data['access_token']
-        const format = await this.formatName(name)
+    static async StoreUserData(data: any) {
+        const name = data['name'] || 'Caio'
+        const token = data['token']
 
         try {
             localStorage.setItem('name', name)
             localStorage.setItem('token', token)
-            localStorage.setItem('initials', format)
         } catch (error) {
             console.log(error)
         }
@@ -17,8 +15,7 @@ class Storage {
         try {
             const name = localStorage.getItem('name')
             const token = localStorage.getItem('token')
-            const initials = localStorage.getItem('initials')
-            return { name, token, initials }
+            return { name, token }
         } catch (error) {
             console.log(error)
         }
@@ -29,7 +26,6 @@ class Storage {
             localStorage.removeItem('name')
             localStorage.removeItem('userid')
             localStorage.removeItem('token')
-            localStorage.removeItem('initials')
         } catch (error) {
             console.log(error)
         }

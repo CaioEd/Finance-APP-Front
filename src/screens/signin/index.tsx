@@ -1,4 +1,7 @@
+import { useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "@/context/general";
+import Storage from "@/storage";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,7 +14,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import ApiSignin from "./service";
 
-
 const FormSchema = z.object({
   email: z.string().email({ message: "Digite um email válido" }),
   password: z.string().min(1, { message: "Por favor digite a senha" }),
@@ -19,6 +21,8 @@ const FormSchema = z.object({
 
 export function SignIn() {
   const navigate = useNavigate();
+  
+  const { HandleUserData } = useContext(AuthContext);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -29,15 +33,25 @@ export function SignIn() {
     try {
       const response = await ApiSignin.Login({ data });
       console.log(response, data)
+
       if (response) {
-    
-        localStorage.setItem("authToken", response.token);
-        localStorage.setItem("username", response.username);
-        localStorage.setItem("tokenExpiration", response.expires);
+
+        await Storage.StoreUserData({
+          user: response.username,
+          token: response.token,
+          expires: response.expires,
+        })
+
+        await HandleUserData({
+          user: response.username,
+          token: response.token,
+          expires: response.expires,
+        })
 
         toast.success("Login realizado com sucesso");
         navigate("/dashboard");
       } else {
+        alert("Credenciais inválidas!")
         toast.error("Credenciais inválidas!");
       }
     } catch (error) {
