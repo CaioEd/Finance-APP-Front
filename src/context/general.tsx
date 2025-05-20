@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
 
     const HandleUserData = async (data) => {
         setUsername(data.user)
-        setToken(data['token'])
+        setToken(data['access'])
         setAuthenticated(true)
     }
 
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
         const response = Storage.RetrieveUserData()
         if (response) {
             setAuthenticated(true)
-            setUsername(response.name)
+            setUsername(response.username)
             setToken(response.token)
         } else {
             setAuthenticated(false)
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
 
     const getUsername = () => {
         const response = Storage.RetrieveUserData()
-        const name = response.name
+        const name = response.username
         return name
     }
 

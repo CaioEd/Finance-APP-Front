@@ -1,9 +1,10 @@
 "use client"
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { ArrowBigUp, ArrowBigDown, CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { DateRange } from 'react-day-picker';
+import { AuthContext } from "@/context/general";
 
 import { 
     Breadcrumb, 
@@ -23,8 +24,11 @@ import { AppSidebar } from '@/components/app/app-sidebar';
 
 import ApiDashboard from './service';
 
+import Storage from "@/storage";
+
 
 export function Dashboard() {
+    const { HandleUserData } = useContext(AuthContext);
     const [totalExpenses, setTotalExpenses] = useState('')
     const [totalIncomes, setTotalIncomes] = useState('')
     const [balance, setBalance] = useState(0)
@@ -132,6 +136,34 @@ export function Dashboard() {
         getBalance();
         getActualmonth();
       }, []);
+
+    useEffect(() => {
+        async function fetchUserData() {
+        // Pega o token do storage
+        const userData = Storage.RetrieveUserData();
+        if (!userData?.token) return;
+
+        const res = await fetch('http://localhost:8000/api/users/me/', {
+            headers: {
+            'Authorization': `Bearer ${userData.token}`,
+            },
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            console.log('Usuário logado:', data);
+            // Pode atualizar o contexto aqui se quiser
+            HandleUserData({
+            user: data.username || data.email, // ajusta conforme seu backend
+            token: userData.token,
+            });
+        } else {
+            console.log('Erro ao buscar dados do usuário', res.status);
+        }
+        }
+
+    fetchUserData();
+    }, []);
 
     return (
         <>

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "@/context/general";
 import Storage from "@/storage";
@@ -35,17 +35,17 @@ export function SignIn() {
       console.log(response, data)
 
       if (response) {
-
+        console.log(response, data)
         await Storage.StoreUserData({
           user: response.username,
-          token: response.token,
-          expires: response.expires,
+          token: response.access,
+          expires: response.refresh,
         })
 
         await HandleUserData({
           user: response.username,
-          token: response.token,
-          expires: response.expires,
+          token: response.access,
+          expires: response.refresh,
         })
 
         toast.success("Login realizado com sucesso");
@@ -59,6 +59,9 @@ export function SignIn() {
       toast.error("Ocorreu um erro durante o login. Tente novamente.");
     }
   }
+
+  
+      
 
   return (
     <main className="flex h-screen w-full">
