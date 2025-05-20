@@ -47,13 +47,15 @@ import {
 
 export function AppSidebar() {
 
+    const [name, setName] = useState('')
     const [userName, setUserName] = useState('')
 
     useEffect(() => {
+        const storedName = localStorage.getItem("first_name")
         const storedUserName = localStorage.getItem("username");
 
-        if ( storedUserName ) {
-            console.log(storedUserName)
+        if ( storedUserName && storedName ) {
+            setName(storedName);
             setUserName(storedUserName);
     }
     }, [])
@@ -182,12 +184,12 @@ export function AppSidebar() {
                                         <Avatar className='h-8 w-8 rounded-lg'>
                                             <AvatarImage
                                                 src=''
-                                                alt={userName}
+                                                alt={name}
                                             />
                                             <AvatarFallback className='rounded-lg'></AvatarFallback>
                                         </Avatar>
                                         <div className='grid flex-1 text-left text-sm leading-tight'>
-                                            <span className='truncate font-semibold'>{userName}</span>
+                                            <span className='truncate font-semibold'>{name}</span>
                                         </div>
                                     </div>
                                 </DropdownMenuLabel>

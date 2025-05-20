@@ -1,10 +1,10 @@
 "use client"
-import { useState, useEffect, useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
+import { AuthContext } from "@/context/general";
 import { ArrowBigUp, ArrowBigDown, CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { DateRange } from 'react-day-picker';
-import { AuthContext } from "@/context/general";
 
 import { 
     Breadcrumb, 
@@ -29,6 +29,7 @@ import Storage from "@/storage";
 
 export function Dashboard() {
     const { HandleUserData } = useContext(AuthContext);
+
     const [totalExpenses, setTotalExpenses] = useState('')
     const [totalIncomes, setTotalIncomes] = useState('')
     const [balance, setBalance] = useState(0)
@@ -42,7 +43,6 @@ export function Dashboard() {
         try {
             const response = await ApiDashboard.getTotalExpenses()
             if (response) {
-                console.log(response)
                 setTotalExpenses(response.total_expenses)
             }
         } catch (error) {
@@ -54,7 +54,6 @@ export function Dashboard() {
         try {
             const response = await ApiDashboard.getTotalIncomes()
             if (response) {
-                console.log(response)
                 setTotalIncomes(response.total_incomes)
             }
         } catch (error) {
@@ -66,7 +65,6 @@ export function Dashboard() {
         try {
             const response = await ApiDashboard.getBalance()
             if (response) {
-                console.log(response)
                 setBalance(response.total_balance)
             }
         } catch (error) {
@@ -151,19 +149,28 @@ export function Dashboard() {
 
         if (res.ok) {
             const data = await res.json();
-            console.log('Usuário logado:', data);
-            // Pode atualizar o contexto aqui se quiser
+
+            await Storage.StoreUserData({
+                first_name: data.first_name,   
+                username: data.username,
+                token: userData.token,
+                id: data.id 
+            })
+
             HandleUserData({
-            user: data.username || data.email, // ajusta conforme seu backend
-            token: userData.token,
-            });
+                first_name: data.first_name,
+                username: data.username,
+                token: userData.token,
+                id: data.id
+          });
+          console.log(data)
         } else {
             console.log('Erro ao buscar dados do usuário', res.status);
         }
         }
-
-    fetchUserData();
-    }, []);
+  
+      fetchUserData();
+    }, []);  
 
     return (
         <>

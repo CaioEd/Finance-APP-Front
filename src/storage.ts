@@ -1,10 +1,12 @@
 class Storage {
     static async StoreUserData(data: any) {
-        const name = data['name'] || 'Caio'
+        const name = data['first_name']
+        const username = data['username'] 
         const token = data['token']
 
         try {
-            localStorage.setItem('name', name)
+            localStorage.setItem('first_name', name)
+            localStorage.setItem('username', username)
             localStorage.setItem('token', token)
         } catch (error) {
             console.log(error)
@@ -13,9 +15,10 @@ class Storage {
 
     static RetrieveUserData() {
         try {
-            const name = localStorage.getItem('name')
+            const name = localStorage.getItem('first_name')
+            const username = localStorage.getItem('username')
             const token = localStorage.getItem('token')
-            return { name, token }
+            return { name, username, token }
         } catch (error) {
             console.log(error)
         }
@@ -23,18 +26,13 @@ class Storage {
 
     static async DeleteUserToken() {
         try {
-            localStorage.removeItem('name')
+            localStorage.removeItem('first_name')
+            localStorage.removeItem('username')
             localStorage.removeItem('userid')
             localStorage.removeItem('token')
         } catch (error) {
             console.log(error)
         }
-    }
-
-    static async formatName(name) {
-        const result = name.split(' ')
-        const first = result.map(name => name[0]).join('')
-        return first
     }
 }
 

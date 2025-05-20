@@ -5,8 +5,11 @@ export const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }) => {
     const [authenticated, setAuthenticated] = useState<boolean>(false)
+
+    const [firstName, setFirstName] = useState<string>('')
     const [username, setUsername] = useState<string>('')
     const [token, setToken] = useState<string>('')
+
     const [loading, setLoading] = useState(true)
 
     const HandleAuthenticated = async (status: boolean) => {
@@ -14,8 +17,9 @@ export const AuthProvider = ({ children }) => {
     }
 
     const HandleUserData = async (data) => {
-        setUsername(data.user)
-        setToken(data['access'])
+        setFirstName(data.first_name)
+        setUsername(data.username)
+        setToken(data['token'])
         setAuthenticated(true)
     }
 
@@ -23,6 +27,7 @@ export const AuthProvider = ({ children }) => {
         const response = Storage.RetrieveUserData()
         if (response) {
             setAuthenticated(true)
+            setFirstName(response.first_name)
             setUsername(response.username)
             setToken(response.token)
         } else {
@@ -31,12 +36,17 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const getUsername = () => {
+    const getFirstName = () => {
         const response = Storage.RetrieveUserData()
-        const name = response.username
-        return name
+        const firstname = response.first_name
+        return firstname
     }
 
+    const getUsername = () => {
+        const response = Storage.RetrieveUserData()
+        const username = response.username
+        return username
+    }
 
     const deleteToken = () => {
         Storage.DeleteUserToken()
@@ -58,11 +68,13 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             authenticated,
             username,
+            firstName,
             token,
             HandleAuthenticated,
             HandleUserData,
             deleteToken,
-            getUsername
+            getFirstName,
+            getUsername,
         }}>
             {children}
         </AuthContext.Provider>

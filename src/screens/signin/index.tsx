@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "@/context/general";
 import Storage from "@/storage";
@@ -32,7 +32,6 @@ export function SignIn() {
 
     try {
       const response = await ApiSignin.Login({ data });
-      console.log(response, data)
 
       if (response) {
         console.log(response, data)
@@ -59,9 +58,6 @@ export function SignIn() {
       toast.error("Ocorreu um erro durante o login. Tente novamente.");
     }
   }
-
-  
-      
 
   return (
     <main className="flex h-screen w-full">
