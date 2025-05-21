@@ -47,6 +47,15 @@ import {
 
 export function AppSidebar() {
 
+    async function logOut() {
+        console.log('fui clicado, ui que delícia')
+        localStorage.removeItem("first_name");
+        localStorage.removeItem("username");
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        window.location.href = '/';
+    }
+
     const [name, setName] = useState('')
     const [userName, setUserName] = useState('')
 
@@ -133,20 +142,6 @@ export function AppSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
 
-                <SidebarGroup key={3} className='pl-5 mt-3'>
-                    <SidebarGroupLabel>Gerenciamento</SidebarGroupLabel>
-                    <SidebarMenu>
-                        <SidebarMenuItem>
-                                <Link to='/account' className='flex items-center ml-2'>
-                                    <SidebarMenuButton className='h-12 hover:bg-[#23CFCE] dark:hover:bg-[#23CFCE] dark:hover:text-black'>
-                                        <User style={{ width: '21px', height: '21px' }} />
-                                        <span className='font-mono ml-4'>Minha Conta</span>
-                                    </SidebarMenuButton>
-                                </Link>
-                            </SidebarMenuItem>
-                    </SidebarMenu>
-                </SidebarGroup>
-
             </SidebarContent>
 
             <SidebarFooter>
@@ -193,24 +188,26 @@ export function AppSidebar() {
                                         </div>
                                     </div>
                                 </DropdownMenuLabel>
+
                                 <DropdownMenuSeparator />
+
                                 <DropdownMenuGroup>
-                                    <DropdownMenuItem>
-                                        <BadgeCheck />
-                                        Minha Conta
-                                    </DropdownMenuItem>
-                                </DropdownMenuGroup>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuGroup>
-                                    <DropdownMenuItem>
-                                        <Bell />
-                                        Notificações
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>
-                                        <LogOut />
-                                        Log out
+                                    <Link to='/account'>
+                                        <DropdownMenuItem className='cursor-pointer'> 
+                                            <User />
+                                            Minha Conta
                                         </DropdownMenuItem>
+                                    </Link>
+                                </DropdownMenuGroup>
+
+                                <DropdownMenuGroup>
+                                    
+                                    <DropdownMenuSeparator />
+                                        <DropdownMenuItem className='cursor-pointer' onClick={logOut}>
+                                            <LogOut />
+                                            Log out
+                                        </DropdownMenuItem>
+
                                 </DropdownMenuGroup>
                             </DropdownMenuContent>
                         </DropdownMenu>
