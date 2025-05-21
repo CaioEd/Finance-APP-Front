@@ -133,7 +133,7 @@ export function Dashboard() {
         getIncomesValue();
         getBalance();
         getActualmonth();
-      }, []);
+    }, []);
 
     useEffect(() => {
         async function fetchUserData() {

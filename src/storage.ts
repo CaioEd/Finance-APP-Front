@@ -15,10 +15,10 @@ class Storage {
 
     static RetrieveUserData() {
         try {
-            const name = localStorage.getItem('first_name')
+            const first_name = localStorage.getItem('first_name')
             const username = localStorage.getItem('username')
             const token = localStorage.getItem('token')
-            return { name, username, token }
+            return { first_name, username, token }
         } catch (error) {
             console.log(error)
         }
