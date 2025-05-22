@@ -44,15 +44,20 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 
+import axios from 'axios';
+
 
 export function AppSidebar() {
 
     async function logOut() {
-        console.log('fui clicado, ui que delícia')
         localStorage.removeItem("first_name");
         localStorage.removeItem("username");
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+
+        // Remove o token global do axios
+        delete axios.defaults.headers.common['Authorization'];
+        
         window.location.href = '/';
     }
 
