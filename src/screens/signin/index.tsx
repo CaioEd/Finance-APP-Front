@@ -32,31 +32,46 @@ export function SignIn() {
 
     try {
       const response = await ApiSignin.Login({ data });
-
-      if (response) {
-        console.log(response, data)
+    
+      if (response && response.access) {
+    
+        const res = await fetch(`http://localhost:8000/api/users/me/`, {
+          headers: {
+            Authorization: `Bearer ${response.access}`,
+          },
+        });
+    
+        if (!res.ok) {
+          throw new Error('Erro ao buscar dados do usuário');
+        }
+    
+        const userData = await res.json();
+    
         await Storage.StoreUserData({
-          user: response.username,
+          first_name: userData.first_name,
+          username: userData.username,
           token: response.access,
           expires: response.refresh,
-        })
-
+        });
+    
         await HandleUserData({
-          user: response.username,
+          first_name: userData.first_name,
+          username: userData.username,
           token: response.access,
           expires: response.refresh,
-        })
-
+        });
+    
         toast.success("Login realizado com sucesso");
         navigate("/dashboard");
       } else {
-        alert("Credenciais inválidas!")
+        alert("Credenciais inválidas!");
         toast.error("Credenciais inválidas!");
       }
     } catch (error) {
       console.error(error);
       toast.error("Ocorreu um erro durante o login. Tente novamente.");
     }
+    
   }
 
   return (

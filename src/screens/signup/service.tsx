@@ -3,10 +3,10 @@ const BASE_URL = import .meta.env.VITE_API_URL
 
 
 class ApiSignup {
-    static async Login({ data }) {
+    static async Login({ data }: any) {
         try {
             const response = await axios.post(
-                `${BASE_URL}/register/`, data
+                `${BASE_URL}/register/`, data,
             )
             if (response.status === 201) {            
                 return response.data

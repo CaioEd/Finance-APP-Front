@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
     const HandleUserData = async (data) => {
         setFirstName(data.first_name)
         setUsername(data.username)
-        setToken(data['token'])
+        setToken(data.token)
         setAuthenticated(true)
     }
 
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
             setAuthenticated(true)
             setFirstName(response.first_name)
             setUsername(response.username)
-            setToken(response.token)
+            setToken(response.access)
         } else {
             setAuthenticated(false)
             console.log('No Data')
