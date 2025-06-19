@@ -1,5 +1,6 @@
 "use client"
-import { useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
+import { AuthContext } from "@/context/general";
 import { ArrowBigUp, ArrowBigDown, CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -23,8 +24,12 @@ import { AppSidebar } from '@/components/app/app-sidebar';
 
 import ApiDashboard from './service';
 
+import Storage from "@/storage";
+
 
 export function Dashboard() {
+    const { HandleUserData } = useContext(AuthContext);
+
     const [totalExpenses, setTotalExpenses] = useState('')
     const [totalIncomes, setTotalIncomes] = useState('')
     const [balance, setBalance] = useState(0)
@@ -38,7 +43,6 @@ export function Dashboard() {
         try {
             const response = await ApiDashboard.getTotalExpenses()
             if (response) {
-                console.log(response)
                 setTotalExpenses(response.total_expenses)
             }
         } catch (error) {
@@ -50,7 +54,6 @@ export function Dashboard() {
         try {
             const response = await ApiDashboard.getTotalIncomes()
             if (response) {
-                console.log(response)
                 setTotalIncomes(response.total_incomes)
             }
         } catch (error) {
@@ -62,7 +65,6 @@ export function Dashboard() {
         try {
             const response = await ApiDashboard.getBalance()
             if (response) {
-                console.log(response)
                 setBalance(response.total_balance)
             }
         } catch (error) {
@@ -131,7 +133,44 @@ export function Dashboard() {
         getIncomesValue();
         getBalance();
         getActualmonth();
-      }, []);
+    }, []);
+
+    useEffect(() => {
+        async function fetchUserData() {
+        // Pega o token do storage
+        const userData = Storage.RetrieveUserData();
+        if (!userData?.token) return;
+
+        const res = await fetch('http://localhost:8000/api/users/me/', {
+            headers: {
+            'Authorization': `Bearer ${userData.token}`,
+            },
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+
+            await Storage.StoreUserData({
+                first_name: data.first_name,   
+                username: data.username,
+                token: userData.token,
+                id: data.id 
+            })
+
+            HandleUserData({
+                first_name: data.first_name,
+                username: data.username,
+                token: userData.token,
+                id: data.id
+          });
+          console.log(data)
+        } else {
+            console.log('Erro ao buscar dados do usuário', res.status);
+        }
+        }
+  
+      fetchUserData();
+    }, []);  
 
     return (
         <>

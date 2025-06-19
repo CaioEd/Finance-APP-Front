@@ -1,24 +1,20 @@
 class Storage {
-    static async StoreUserData(data) {
-        const name = data['user']
-        const token = data['access_token']
-        const format = await this.formatName(name)
-
+    static async StoreUserData(data: any) {
         try {
-            localStorage.setItem('name', name)
-            localStorage.setItem('token', token)
-            localStorage.setItem('initials', format)
+            localStorage.setItem('first_name', data.first_name)
+            localStorage.setItem('username', data.username)
+            localStorage.setItem('access', data.token)
         } catch (error) {
             console.log(error)
         }
-    }
+    }    
 
     static RetrieveUserData() {
         try {
-            const name = localStorage.getItem('name')
-            const token = localStorage.getItem('token')
-            const initials = localStorage.getItem('initials')
-            return { name, token, initials }
+            const first_name = localStorage.getItem('first_name')
+            const username = localStorage.getItem('username')
+            const token = localStorage.getItem('access')
+            return { first_name, username, token }
         } catch (error) {
             console.log(error)
         }
@@ -26,19 +22,12 @@ class Storage {
 
     static async DeleteUserToken() {
         try {
-            localStorage.removeItem('name')
-            localStorage.removeItem('userid')
-            localStorage.removeItem('token')
-            localStorage.removeItem('initials')
+            localStorage.removeItem('first_name')
+            localStorage.removeItem('username')
+            localStorage.removeItem('access')
         } catch (error) {
             console.log(error)
         }
-    }
-
-    static async formatName(name) {
-        const result = name.split(' ')
-        const first = result.map(name => name[0]).join('')
-        return first
     }
 }
 

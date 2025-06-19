@@ -1,13 +1,17 @@
 import { createContext, useEffect, useState } from 'react'
 import Storage from '@/storage'
+import axios from "axios";
+const BASE_URL = import .meta.env.VITE_API_URL;
 
 export const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }) => {
     const [authenticated, setAuthenticated] = useState<boolean>(false)
+
+    const [firstName, setFirstName] = useState<string>('')
     const [username, setUsername] = useState<string>('')
-    const [initials, setInitials] = useState<string>('')
     const [token, setToken] = useState<string>('')
+
     const [loading, setLoading] = useState(true)
 
     const HandleAuthenticated = async (status: boolean) => {
@@ -15,44 +19,41 @@ export const AuthProvider = ({ children }) => {
     }
 
     const HandleUserData = async (data) => {
-        setUsername(data.user)
-        setToken(data['token'])
+        setFirstName(data.first_name)
+        setUsername(data.username)
+        setToken(data.token)
         setAuthenticated(true)
-
-        const result = cutWords(data.user)
-        setInitials(result)
     }
 
     const getUserData = () => {
         const response = Storage.RetrieveUserData()
         if (response) {
             setAuthenticated(true)
-            setUsername(response.name)
-            setToken(response.token)
-            setInitials(response.initials);
+            setFirstName(response.first_name)
+            setUsername(response.username)
+            setToken(response.access)
         } else {
             setAuthenticated(false)
             console.log('No Data')
         }
     }
 
-    const getUsername = () => {
+    const getFirstName = () => {
         const response = Storage.RetrieveUserData()
-        const name = response.name
-        return name
+        const firstname = response.first_name
+        return firstname
     }
 
-    const cutWords = (words: string) => {
-        const name = words.split('  ')
-        const first = name.map(name => name[0]).join('')
-        return first
+    const getUsername = () => {
+        const response = Storage.RetrieveUserData()
+        const username = response.username
+        return username
     }
 
     const deleteToken = () => {
         Storage.DeleteUserToken()
         setAuthenticated(false)
         setUsername('')
-        setInitials('')
         setToken('')
     }
 
@@ -66,15 +67,16 @@ export const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ 
+        <AuthContext.Provider value={{
             authenticated,
             username,
-            initials,
+            firstName,
             token,
             HandleAuthenticated,
             HandleUserData,
             deleteToken,
-            getUsername
+            getFirstName,
+            getUsername,
         }}>
             {children}
         </AuthContext.Provider>

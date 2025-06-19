@@ -1,4 +1,7 @@
+import { useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "@/context/general";
+import Storage from "@/storage";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,7 +14,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import ApiSignin from "./service";
 
-
 const FormSchema = z.object({
   email: z.string().email({ message: "Digite um email válido" }),
   password: z.string().min(1, { message: "Por favor digite a senha" }),
@@ -19,6 +21,8 @@ const FormSchema = z.object({
 
 export function SignIn() {
   const navigate = useNavigate();
+  
+  const { HandleUserData } = useContext(AuthContext);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -28,22 +32,46 @@ export function SignIn() {
 
     try {
       const response = await ApiSignin.Login({ data });
-      console.log(response, data)
-      if (response) {
     
-        localStorage.setItem("authToken", response.token);
-        localStorage.setItem("username", response.username);
-        localStorage.setItem("tokenExpiration", response.expires);
-
+      if (response && response.access) {
+    
+        const res = await fetch(`http://localhost:8000/api/users/me/`, {
+          headers: {
+            Authorization: `Bearer ${response.access}`,
+          },
+        });
+    
+        if (!res.ok) {
+          throw new Error('Erro ao buscar dados do usuário');
+        }
+    
+        const userData = await res.json();
+    
+        await Storage.StoreUserData({
+          first_name: userData.first_name,
+          username: userData.username,
+          token: response.access,
+          expires: response.refresh,
+        });
+    
+        await HandleUserData({
+          first_name: userData.first_name,
+          username: userData.username,
+          token: response.access,
+          expires: response.refresh,
+        });
+    
         toast.success("Login realizado com sucesso");
         navigate("/dashboard");
       } else {
+        alert("Credenciais inválidas!");
         toast.error("Credenciais inválidas!");
       }
     } catch (error) {
       console.error(error);
       toast.error("Ocorreu um erro durante o login. Tente novamente.");
     }
+    
   }
 
   return (

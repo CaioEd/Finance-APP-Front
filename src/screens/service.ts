@@ -1,12 +1,18 @@
 import axios from "axios";
-const BASE_URL = import .meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 
 class ApiDashboard {
     static async getTotalExpenses() {
         try {
+            const token = localStorage.getItem("access");
             const response = await axios.get(
-                `${BASE_URL}/expenses/month`
+                `${BASE_URL}/expenses/month`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             )
             if (response.status === 200) {
                 return response.data
@@ -20,8 +26,14 @@ class ApiDashboard {
 
     static async getTotalIncomes() {
         try {
+            const token = localStorage.getItem("access");
             const response = await axios.get(
-                `${BASE_URL}/incomes/month`
+                `${BASE_URL}/incomes/month`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             )
             if (response.status === 200) {
                 return response.data
@@ -35,8 +47,14 @@ class ApiDashboard {
 
     static async getBalance() {
         try {
+            const token = localStorage.getItem("access");
             const response = await axios.get(
-                `${BASE_URL}/balance/month/`
+                `${BASE_URL}/balance/month/`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             )
             if (response.status === 200) {
                 return response.data
@@ -50,8 +68,14 @@ class ApiDashboard {
 
     static async getBalanceByDate(start_date: string, end_date: string) {
         try {
+            const token = localStorage.getItem("access");
             const response = await axios.get(
-                `${BASE_URL}/balance/date/?start_date=${start_date}&end_date=${end_date}`
+                `${BASE_URL}/balance/date/?start_date=${start_date}&end_date=${end_date}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             )
             if (response.status === 200) {
                 return response.data
@@ -62,15 +86,21 @@ class ApiDashboard {
     }
 
     static async downloadPdfApi(start_date: string, end_date: string) {
-        return axios.get(
-            `${BASE_URL}/download/balance/date/?start_date=${start_date}&end_date=${end_date}`,
-            {
-                responseType: 'blob',
-            }
-        );
+        try {
+            const token = localStorage.getItem("access");
+            return axios.get(
+                `${BASE_URL}/download/balance/date/?start_date=${start_date}&end_date=${end_date}`,
+                {
+                    responseType: 'blob',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+        } catch (error) {
+            console.log(error)
+        }
     }
-
-
 
 }
 
